@@ -3,7 +3,7 @@ package com.ssm.promotion.core.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.ssm.promotion.core.entity.User;
+import com.ssm.promotion.core.entity.SUser;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -20,29 +20,7 @@ public interface UserDao {
      * @param user
      * @return
      */
-    public User login(User user);
-
-    /**
-     * 查找用户列表
-     *
-     * @param map
-     * @return
-     */
-    public List<User> findUsers(Map<String, Object> map);
-
-    /**
-     * @param map
-     * @return
-     */
-    public Long getTotalUser(Map<String, Object> map);
-
-    /**
-     * 实体修改
-     *
-     * @param user
-     * @return
-     */
-    public int updateUser(User user);
+    public SUser login(SUser user);
 
     /**
      * 添加用户
@@ -50,34 +28,18 @@ public interface UserDao {
      * @param user
      * @return
      */
-    public int addUser(User user);
-
-    /**
-     * 删除用户
-     *
-     * @param id
-     * @return
-     */
-    public int deleteUser(Integer id);
-    
+    public int addUser(SUser user);
+   
     /**
      * 根据用户名获取用户
      * @param user
      * @return
      */
-    User getUserByName(String userName);
-    
+    public SUser getUserByName(String userName);
     /**
-     * 根据id获取用户
-     * @param uuid
+     * 根据用户名获取角色Id
+     * @param user
      * @return
      */
-    User getUserById(Integer id);
-    
-    /**
-     * 根据UUID获取用户
-     * @param uuid
-     * @return
-     */
-    User getUserByUUID(String uuid);
+    public int getRoleIdByName(String userName);
 }

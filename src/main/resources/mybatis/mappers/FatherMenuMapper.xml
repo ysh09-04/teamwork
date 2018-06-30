@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.FatherMenuDao">
+      
+    <sql id="list">
+        fatherMenuId,menuName,muneDescribe,icon
+    </sql>
+    
+    <!-- 获取所有的权限的Map -->
+    <resultMap type="FatherMenuSonMenuDto" id="fatherMenuSonMenuDtoResultMap">
+         <id column="fatherMenuId" property="fatherMenuId"/>
+         <result column="menuName" property="menuName"/>
+         <result column="muneDescribe" property="muneDescribe"/>
+         <result column="icon" property="icon"/>
+         
+         <collection property="sonMenus" ofType="SonMenu">
+              <id column="sonMenuId" property="sonMenuId"/>
+              <result column="sonName" property="menuName"/>
+              <result column="sonDescribe" property="muneDescribe"/>
+              <result column="sonIcon" property="icon"/>
+              <result column="muneUrl" property="muneUrl"/>
+         </collection>
+    </resultMap>
+    <!-- 根据用户名查询全部的权利 -->
+    <select id="findByUserName" parameterType="string" resultMap="fatherMenuSonMenuDtoResultMap">
+          SELECT f.fatherMenuId,f.menuName,f.muneDescribe,f.icon,s.menuName as sonName,s.muneDescribe
+          as sonDescribe ,s.muneUrl,s.sonMenuId,s.icon as sonIcon 
+          FROM s_user u,s_role r,fathermenu f,sonmenu s,user_role ur,role_fathermenu rf 
+          WHERE u.userId=ur.userId AND ur.roleId=r.roleId AND r.roleId=rf.roleId AND rf.fatherMenuId=f.fatherMenuId 
+          AND f.fatherMenuId=s.fatherMenuId AND u.userName=#{0}
+    </select>
+    
+    <!-- 查询全部和模糊查询 -->
+    <select id="findByFatherMenuOrAll" parameterType="Map" resultType="fatherMenu">
+         select 
+         <include refid="list"></include>
+         from fathermenu
+         <where>
+              <if test="menuName!=null and menuName != ''">
+                 AND menuName LIKE #{menuName}
+              </if>
+         </where>
+         <if test="pageSize !=null and start !=null">
+            limit #{start},#{pageSize}
+         </if>
+    </select>
+    
+    <!-- 统计总记录数 -->
+    <select id="findByFatherMenuOrAllCount" parameterType="string" resultType="int">
+         select count(1) 
+         from fathermenu 
+         <where>
+              <if test="menuName!=null and menuName != ''">
+                 AND menuName LIKE #{menuName}
+              </if>
+         </where>
+    </select>
+    
+    <!-- 添加 -->
+    <insert id="save" parameterType="fatherMenu">
+       <selectKey keyProperty="fatherMenuId" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+       INSERT INTO fathermenu(menuName,muneDescribe,icon) values(#{menuName},#{muneDescribe},#{icon})
+    </insert>
+    
+    <!-- 修改 -->
+    <update id="update" parameterType="fatherMenu">
+        UPDATE fathermenu SET menuName=#{menuName},muneDescribe=#{muneDescribe},icon=#{icon} WHERE fatherMenuId=#{fatherMenuId}
+    </update>
+    
+    <!-- 删除 -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM fathermenu WHERE fatherMenuId=#{0}
+    </delete>
+    
+    <!-- 查询全部的id和菜单名 -->
+    <select id="findAllIdAndName" resultType="fatherMenu">
+       SELECT fatherMenuId,menuName FROM fathermenu
+    </select>
+</mapper>

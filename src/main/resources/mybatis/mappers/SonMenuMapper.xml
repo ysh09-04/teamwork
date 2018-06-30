@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.SonMenuDao">
+
+	<sql id="list">
+		sonMenuId,menuName,muneDescribe,icon,muneUrl,fatherMenuId
+	</sql>
+	<!-- 子菜单关联父菜单 -->
+	<resultMap type="SonMenuFatherMenuDto" id="sonMenuFatherMenuDtoResultMap">
+
+		<id column="sonMenuId" property="sonMenuId" />
+		<result column="menuName" property="menuName" />
+		<result column="muneDescribe" property="muneDescribe" />
+		<result column="icon" property="icon" />
+		<result column="muneUrl" property="muneUrl" />
+		<association property="fatherMenu" javaType="fatherMenu">
+			<id column="fatherMenuId" property="fatherMenuId" />
+			<result column="fmenuName" property="menuName" />
+			<result column="fmuneDescribe" property="muneDescribe" />
+			<result column="ficon" property="icon" />
+		</association>
+	</resultMap>
+	<!-- 查询全部和模糊查询 -->
+	<select id="findByMenuNameOrAll" parameterType="Map"
+		resultMap="sonMenuFatherMenuDtoResultMap">
+		SELECT 
+		s.sonMenuId,s.muneUrl,s.muneDescribe,s.menuName,s.icon,f.fatherMenuId,f.icon AS ficon,
+		f.menuName AS fmenuName,f.muneDescribe AS fmuneDescribe 
+		FROM fathermenu f,sonmenu s 
+		WHERE f.fatherMenuId=s.fatherMenuId 
+		<if test="menuName!=null and menuName != ''">
+			 AND menuName LIKE #{menuName}
+		</if>
+		<if test="pageSize !=null and start !=null">
+			 limit #{start},#{pageSize}
+		</if>
+	</select>
+
+	<!-- 统计总记录数 -->
+	<select id="findAllCount" parameterType="string"
+		resultType="int">
+		select count(1)
+		from sonmenu
+		<where>
+			<if test="menuName!=null and menuName != ''">
+				AND menuName LIKE #{menuName}
+			</if>
+		</where>
+	</select>
+
+	<!-- 添加 -->
+	<insert id="save" parameterType="fatherMenu">
+		INSERT INTO
+		sonmenu(menuName,muneDescribe,icon,muneUrl,fatherMenuId) 
+		values(#{menuName},#{muneDescribe},#{icon},#{muneUrl},#{fatherMenuId})
+	</insert>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="fatherMenu">
+		UPDATE sonmenu SET 
+		menuName=#{menuName},muneDescribe=#{muneDescribe} 
+		,icon=#{icon},muneUrl=#{muneUrl},fatherMenuId=#{fatherMenuId} 
+		WHERE 
+		sonMenuId=#{sonMenuId}
+	</update>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM sonmenu WHERE 
+		sonMenuId=#{0}
+	</delete>
+
+	<!-- 根据父ID查询要删除的ID -->
+	<select id="findByFatherMenuId" parameterType="int" resultType="int">
+		SELECT sonMenuId
+		FROM sonMenu 
+		WHERE fatherMenuId=#{0} 
+	</select>
+</mapper>

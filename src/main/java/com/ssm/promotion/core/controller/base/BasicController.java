@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ssm.promotion.core.common.Constants;
-import com.ssm.promotion.core.entity.User;
+import com.ssm.promotion.core.entity.SUser;
 import com.ssm.promotion.core.service.UserService;
 
 /** 
@@ -32,30 +32,10 @@ public class BasicController {
 	 * @param request
 	 * @return
 	 */
-	public User getSessionUser(HttpServletRequest request){
-		return (User)request.getSession().getAttribute(Constants.SESSION_USER);
+	public SUser getSessionUser(HttpServletRequest request){
+		return (SUser)request.getSession().getAttribute(Constants.SESSION_USER);
 	}
 	
-	/**
-	 * 获取超级管理员
-	 * @param request
-	 * @return
-	 */
-	public Boolean validSuperUser(HttpServletRequest request){
-		User currentUser = getSessionUser(request);
-		User sysUser = null;
-		if (null != currentUser) {
-			sysUser = userService.getUserByUUID(currentUser.getUuid());
-			if (null != sysUser) {
-				synchronized (sysUser) {
-					if (sysUser.getRoleId() == 1) {
-						return Boolean.TRUE;
-					}
-				}
-			}
-		}
-		return Boolean.FALSE;
-	}
 	
 	/**
 	 * 获取客户端ip地址

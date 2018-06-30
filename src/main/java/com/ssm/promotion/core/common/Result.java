@@ -3,13 +3,14 @@ package com.ssm.promotion.core.common;
 import java.io.Serializable;
 
 /**
+ * 封装了一个结果返回值的格式
  * Created by 13 on 17/6/26.
  */
 public class Result<T> implements Serializable {
     private static final long serialVersionUID = 1L;
-    private int resultCode;
-    private String message;
-    private T data;
+    private int resultCode;//返回值的编码
+    private String message;//返回值的信息提示
+    private T data;//返回值要带的数据
 
     public Result() {
     }

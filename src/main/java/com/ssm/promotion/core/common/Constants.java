@@ -1,6 +1,7 @@
 package com.ssm.promotion.core.common;
 
 /**
+ * 定义一些公用的数据类型
  * Created by 13 on 2017/6/26.
  */
 public class Constants {

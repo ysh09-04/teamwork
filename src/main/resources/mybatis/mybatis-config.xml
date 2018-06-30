@@ -10,6 +10,7 @@
 
 	<typeAliases>
 		<package name="com.ssm.promotion.core.entity" />
+		<package name="com.ssm.promotion.core.dto" />
 	</typeAliases>
 	
 </configuration>

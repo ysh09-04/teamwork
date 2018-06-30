@@ -1,5 +1,5 @@
 <%@page import="com.ssm.promotion.core.common.Constants"%>
-<%@page import="com.ssm.promotion.core.entity.User"%>
+<%@page import="com.ssm.promotion.core.entity.SUser"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//Dtd HTML 4.01 Transitional//EN">
@@ -17,7 +17,7 @@
 				<td valign="bottom"
 					style="font-size: 20px; color: #8B8B8B; font-family: '楷体';"
 					align="right" width="50%"><font size="3">&nbsp;&nbsp;<strong>当前管理员：</strong>
-						${userName} </font>【${roleName}】 <a href="javascript:logout()" style="width: 100px;">退出登录</a>&nbsp;&nbsp;</td>
+						${userName} </font> <a href="javascript:logout()" style="width: 100px;">退出登录</a>&nbsp;&nbsp;</td>
 			</tr>
 		</table>
 	</div>
@@ -34,16 +34,16 @@
 	<div region="west" style="width: 200px; height: 500px;" title="导航菜单"
 		split="true">
 		<div class="easyui-accordion">
-			<c:forEach items="${menus}" var="m">
-				<div title="${m.title}"
+			<c:forEach items="${fatherMenuSonMenuDtos}" var="m">
+				<div title="${m.menuName}"
 					data-options="selected:true,iconCls:'${m.icon}'"
 					style="padding: 10px; height: 10px;">
-					<c:forEach items="${m.menuChildList}" var="item">
+					<c:forEach items="${m.sonMenus}" var="item">
 						<a
-							href="javascript:openTab('${item.title}','${item.path}','${item.icon}')"
+							href="javascript:openTab('${item.menuName}','${item.muneUrl}','${item.icon}')"
 							class="easyui-linkbutton"
 							data-options="plain:true,iconCls:'${item.icon}'"
-							style="width: 150px;"> ${item.name}</a>
+							style="width: 150px;"> ${item.menuName}</a>
 					</c:forEach>
 				</div>
 			</c:forEach>

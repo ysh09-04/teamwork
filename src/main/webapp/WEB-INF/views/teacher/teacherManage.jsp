@@ -11,12 +11,17 @@
 	var url = "${pageContext.request.contextPath}/teacher";
 	var method;
 	
+	/*
+	  根据名字进行查询
+	*/
 	function searchUser() {
 		$("#dg").datagrid('load', {
 			"tname" : $("#searchtname").val()
 		});
 	}
-
+    /*
+           根据ID进行删除
+    */
 	function deleteUser() {
 		var selectedRows = $("#dg").datagrid('getSelections');
 		if (selectedRows.length == 0) {

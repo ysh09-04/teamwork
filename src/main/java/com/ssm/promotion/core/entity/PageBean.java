@@ -1,6 +1,10 @@
 package com.ssm.promotion.core.entity;
 
 /**
+ * 封装一个分页的根据类
+ * start是开始的条数
+ * pagesizi是每页的数据量
+ * page是页码
  * @author 1034683568@qq.com
  * @project_name perfect-ssm
  * @date 2017-3-1
@@ -9,7 +13,7 @@ public class PageBean {
 
     private int page; // 页码
     private int pageSize; // 单页数据量
-    private int start;
+    private int start; //开始的条数
 
 
     public PageBean(int page, int pageSize) {

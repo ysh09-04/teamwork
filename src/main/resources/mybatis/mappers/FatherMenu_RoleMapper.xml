@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.FatherMenu_RoleDao">
+      
+      <!-- 添加 -->
+      <insert id="save">
+          INSERT INTO role_fathermenu(fatherMenuId,roleId) values(#{0},#{1})
+      </insert>
+      <!-- 删除 -->
+      <delete id="delete" parameterType="int">
+           DELETE FROM role_fathermenu WHERE fatherMenuId=#{0}
+      </delete>
+</mapper>
