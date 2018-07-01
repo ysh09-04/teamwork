@@ -16,7 +16,6 @@ import com.ssm.promotion.core.dao.QuestionDao;
 import com.ssm.promotion.core.dao.Shop_ContentDao;
 import com.ssm.promotion.core.dao.VideoCategoryDao;
 import com.ssm.promotion.core.dao.VideoDao;
-import com.ssm.promotion.core.dto.CategoryCategoryDto;
 import com.ssm.promotion.core.entity.Category;
 import com.ssm.promotion.core.service.CategoryService;
 
@@ -112,6 +111,7 @@ public class CategoryServiceImpl implements CategoryService {
 				List<Integer> videoCategoryIds=new ArrayList<Integer>();//获取要删除的视频类
 				List<Integer> questionBankIds=new ArrayList<Integer>();//获取要删除的题库
 				List<Integer> paperIds=new ArrayList<Integer>();//获取要删除的考卷
+				//获取课程
 				for (Integer integer : courseIds) {
 					videoCategoryIds.addAll(videoCategoryDao.findByCourseId(integer));
 					questionBankIds.addAll(questionBankDao.findByCourseId(integer));

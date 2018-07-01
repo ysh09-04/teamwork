@@ -11,4 +11,34 @@
      <delete id="delete" parameterType="int">
          DELETE FROM course WHERE courseId=#{0}
      </delete>
+     <!-- 模糊查询/查询全部(分页) -->
+     <select id="findByCourseNameOrAllPage" parameterType="Map" resultType="Course">
+        SELECT courseId,courseName,courseDescribe,enabledCourse,enabledPaper
+        FROM course 
+        <if test="courseName!=null and courseName != ''">
+             AND courseName LIKE #{courseName}
+        </if>
+        <if test="pageSize !=null and start !=null">
+             limit #{start},#{pageSize}
+        </if>
+     </select>
+     <!-- 添加总条数 -->
+     <select id="findByCourseNameOrAllCount" resultType="int">
+        SELECT count(1) 
+        FROM course 
+        <if test="courseName!=null and courseName != ''">
+             AND courseName LIKE #{courseName}
+        </if>
+     </select>
+     <!-- 添加 -->
+     <insert id="save" parameterType="Course">
+         INSERT INTO course(courseName,courseDescribe,enabledCourse,enabledPaper,categoryId)
+         values(#{courseName},#{courseDescribe},#{enabledCourse},#{enabledPaper},#{categoryId});
+     </insert>
+     <!-- 修改 -->
+     <update id="update" parameterType="Course">
+         UPDATE course SET courseName=#{courseName},courseDescribe=#{courseDescribe},
+         enabledCourse=#{enabledCourse},enabledPaper=#{enabledPaper},categoryId=#{categoryId} 
+         WHERE courseId=#{courseId}
+     </update>
 </mapper>

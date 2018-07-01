@@ -30,10 +30,10 @@ public class FatherMenuServiceImpl implements FatherMenuService{
 
 	@Resource
 	private SonMenuDao sonMenuDao;
-	
+
 	@Resource
 	private UserDao userDao;
-	
+
 	@Resource
 	private FatherMenu_RoleDao fatherMenu_RoleDao;
 	/**
@@ -94,8 +94,10 @@ public class FatherMenuServiceImpl implements FatherMenuService{
 	public int save(FatherMenu fatherMenu,SUser user) {
 		int count=0;
 		fatherMenuDao.save(fatherMenu);
-		int roleId= userDao.getRoleIdByName(user.getUserName());
-		count=fatherMenu_RoleDao.save(fatherMenu.getFatherMenuId(), roleId);
+		if("root".equals(user.getUserName())){
+			int roleId= userDao.getRoleIdByName(user.getUserName());
+			count=fatherMenu_RoleDao.save(fatherMenu.getFatherMenuId(), roleId);
+		}
 		// TODO Auto-generated method stub
 		return count;
 	}
