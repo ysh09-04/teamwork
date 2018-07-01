@@ -6,9 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script src="js/menu/sonMenu.js"></script>
+<script src="js/category/category.js"></script>
 <script type="text/javascript">
-    var url = "${pageContext.request.contextPath}/sonMenu";
+    var url = "${pageContext.request.contextPath}/category";
     var method;
     
     /*
@@ -16,13 +16,13 @@
     */
     function searchMenuName() {
         $("#dg").datagrid('load', {
-            "menuName" : $("#searchMenuName").val()
+            "categoryName" : $("#searchMenuName").val()
         });
     }
     /*
            根据ID进行删除
     */
-    function deleteSonMenu() {
+    function deleteCategory() {
         var selectedRows = $("#dg").datagrid('getSelections');
         if (selectedRows.length == 0) {
             $.messager.alert("系统提示", "请选择要删除的数据！");
@@ -30,7 +30,7 @@
         }
         var strIds = [];
         for ( var i = 0; i < selectedRows.length; i++) {
-            var id = selectedRows[i].sonMenuId;
+            var id = selectedRows[i].categoryId;
             if (id == 1) {
                 $.messager.alert("系统提示", "操作失败!");
                 return;
@@ -71,20 +71,19 @@
         method = "POST";
     }
 
-    function saveSonMenu() {
-        var menuName = $("#menuName").val();
-        var muneDescribe = $("#muneDescribe").val();
-        var icon = $("#icon").val();
-        var muneUrl = $("#muneUrl").val();
-        var sonMenuId = $("#sonMenuId").val();
-        var fatherMenuId= $("#fatherMenuId").combobox('getValue');
+    function saveCategory() {
+        var categoryId = $("#categoryId").val();
+        var categoryName = $("#categoryName").val();
+        var categoryDescribe = $("#categoryDescribe").val();
+        var categoryLevel = $("#categoryLevel").val();
+        alert($("#fatherId").combobox('getValue'));
+        var fatherId= $("#fatherId").combobox('getValue');
         var data = {
-            "sonMenuId" : sonMenuId,
-            "menuName" : menuName,
-            "muneDescribe" : muneDescribe,
-            "icon" : icon,
-            "muneUrl" : muneUrl,
-            "fatherMenuId" : fatherMenuId
+            "categoryId" : categoryId,
+            "categoryName" : categoryName,
+            "categoryDescribe" : categoryDescribe,
+            "categoryLevel" : categoryLevel,
+            "fatherId" : fatherId
         }
         $.ajax({
             type : method,//方法类型
@@ -121,22 +120,19 @@
         var row = selectedRows[0];
         $("#dlg").dialog("open").dialog("setTitle", "编辑用户信息");
         $('#fm').form('load', row);
-        $("#icon").val(row.icon);
-        $("#muneDescribe").val(row.muneDescribe);
-        $("#menuName").val(row.menuName);
-        $("#muneUrl").val(row.muneUrl);
-        $("#sonMenuId").val(row.sonMenuId);
-        var fatherMenuId=row.fatherMenu.fatherMenuId;
-        $("#fatherMenuId").combobox('select',fatherMenuId);
+        $("#categoryName").val(row.categoryName);
+        $("#categoryId").val(row.categoryId);
+        $("#categoryDescribe").val(row.categoryDescribe);
+        $("#categoryLevel").val(row.categoryLevel);
+        $("#fatherId").combobox('select',row.fatherId);
         method = "PUT";
     }
 
     function resetValue() {
-        $("#menuName").val("");
-        $("#icon").val("");
-        $("#muneUrl").val("");
-        $("#muneDescribe").val("");
-        $("#fatherMenuId").combobox('getValue',"");
+        $("#categoryName").val("");
+        $("#categoryDescribe").val("");
+        $("#categoryLevel").val("");
+        $("#fatherId").combobox('getValue',"");
     }
 
     function closeUserDialog() {
@@ -154,7 +150,7 @@
                 iconCls="icon-add" plain="true">添加</a> <a
                 href="javascript:openUserModifyDialog()" class="easyui-linkbutton"
                 iconCls="icon-edit" plain="true">修改</a> <a
-                href="javascript:deleteSonMenu()" class="easyui-linkbutton"
+                href="javascript:deleteCategory()" class="easyui-linkbutton"
                 iconCls="icon-remove" plain="true">删除</a>
         </div>
         <div>
@@ -169,38 +165,32 @@
         style="width: 620px;height:250px;padding: 10px 20px" closed="true"
         buttons="#dlg-buttons">
         <form id="fm" method="post">
-        <input type="hidden" id="sonMenuId" value="0">
+        <input type="hidden" id="categoryId" value="0">
             <table cellspacing="8px">
                 <tr>
-                    <td>菜单名：</td>
-                    <td><input type="text" id="menuName" name="menuName"
+                    <td>类目名：</td>
+                    <td><input type="text" id="categoryName" name="categoryName"
                         class="easyui-validatebox" required="true" />&nbsp;<font
                         color="red">*</font> 
                     </td>
                 </tr>
                 <tr>
                     <td>描述：</td>
-                    <td><input type="text" id="muneDescribe" name="muneDescribe"
+                    <td><input type="text" id="categoryDescribe" name="categoryDescribe"
                         class="easyui-validatebox" required="true" />&nbsp;<font
                         color="red">*</font></td>
                 </tr>
                 <tr>
-                    <td>图片：</td>
-                    <td><input type="text" id="icon" name="icon"
-                        class="easyui-validatebox" required="true" />&nbsp;<font
-                        color="red">*</font></td>
-                </tr>
-                 <tr>
-                    <td>路径：</td>
-                    <td><input type="text" id="muneUrl" name="muneUrl"
+                    <td>级别：</td>
+                    <td><input type="text" id="categoryLevel" name="categoryLevel"
                         class="easyui-validatebox" required="true" />&nbsp;<font
                         color="red">*</font></td>
                 </tr>
                 <tr>
-                    <td>父目录：</td>
+                    <td>父类目：</td>
                     <td>
-                        <select class='easyui-combobox' id="fatherMenuId" name='fatherMenuId'  >
-                            <option value="" >--请选择--</option>                      
+                        <select class='easyui-combobox' id="fatherId" name='fatherId'  >
+                            <option value="0" >--请选择--</option>                      
                         </select>
                     </td>
                 </tr>
@@ -209,7 +199,7 @@
     </div>
 
     <div id="dlg-buttons">
-        <a href="javascript:saveSonMenu()" class="easyui-linkbutton"
+        <a href="javascript:saveCategory()" class="easyui-linkbutton"
             iconCls="icon-ok">保存</a> <a href="javascript:closeUserDialog()"
             class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
     </div>
