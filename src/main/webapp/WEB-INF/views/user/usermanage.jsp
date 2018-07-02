@@ -11,13 +11,13 @@
 	var url = "${pageContext.request.contextPath}/users";
 	var method;
 	
-	function searchUser() {
+	function searchSUser() {
 		$("#dg").datagrid('load', {
-			"userName" : $("#s_userName").val()
+			"tname" : $("#name").val()
 		});
 	}
 
-	function deleteUser() {
+	function deleteSUser() {
 		var selectedRows = $("#dg").datagrid('getSelections');
 		if (selectedRows.length == 0) {
 			$.messager.alert("系统提示", "请选择要删除的数据！");
@@ -25,7 +25,7 @@
 		}
 		var strIds = [];
 		for ( var i = 0; i < selectedRows.length; i++) {
-			var id = selectedRows[i].id;
+			var id = selectedRows[i].userId;
 			if (id == 1) {
 				$.messager.alert("系统提示", "操作失败!");
 				return;
@@ -61,21 +61,21 @@
 
 	}
 
-	function openUserAddDialog() {
+	function openSUserAddDialog() {
 		$("#dlg").dialog("open").dialog("setTitle", "添加用户信息");
 		method = "POST";
 	}
 
-	function saveUser() {
-		var userName = $("#userName").val();
+	function saveSUser() {
+	    var userId = $("#userId").val();
 		var password = $("#password").val();
-		var id = $("#userId").val();
-		var roleId = $("#role").val();
+		var userName = $("#userName").val();
+		var state = $("#state").val();
 		var data = {
-			"id" : id,
+			"userId" : userId,
 			"password" : password,
-			"userName" : userName,
-			"roleId": roleId
+			"userName": userName,
+			"state": state,
 		}
 		$.ajax({
 			type : method,//方法类型
@@ -103,72 +103,56 @@
 		});
 	}
 
-	function openUserModifyDialog() {
+	function openSUserModifyDialog() {
 		var selectedRows = $("#dg").datagrid('getSelections');
 		if (selectedRows.length != 1) {
 			$.messager.alert("系统提示", "请选择一条要编辑的数据！");
 			return;
 		}
 		var row = selectedRows[0];
-		if (row.id == 1) {
+		if (row.tid == 1) {
 			$.messager.alert("系统提示", "操作失败！");
 			return;
 		}
-		if (row.roleId != '' && row.roleId != '') {
-			$('#role').find("option[ value='"+ row.roleId + "']").attr("selected", true);
-		}
 		$("#dlg").dialog("open").dialog("setTitle", "编辑用户信息");
 		$('#fm').form('load', row);
-		$("#password").val("******");
-		$("#userId").val(row.id);
+		$("#userId").val(row.userId);
+		$("#password").val(row.password);
+		$("#userName").val(row.userName);
+		$("#state").val(row.state);
+		
 		method = "PUT";
 	}
 
 	function resetValue() {
-		$("#userName").val("");
 		$("#password").val("");
+		$("#userName").val("");
+		$("#state").val("");
 	}
 
-	function closeUserDialog() {
+	function closeSUserDialog() {
 		$("#dlg").dialog("close");
 		resetValue();
 	}
 	
-	$(function(){
-		//获取所有权限
-		$.ajax({
-			url: 'sys/role/findAllroles',
-			type: 'GET',
-			dataType: 'json',
-			success: function(lst) {
-				//console.log(lst);
-				for (var i = 0; i < lst.length; ++i) {
-					var item = lst[i];
-					var html = "<option value='" + item.id + "'>" + item.roleName +"</option>";
-					$('#role').append(html);
-				}
-			}, error: function() {
-				console.log("获取权限列表失败");
-			}
-		});
-	})
+	
 </script>
 </head>
 <body style="margin:1px;">
 	<table id="dg"></table>
 	<div id="tb">
 		<div>
-			<a href="javascript:openUserAddDialog()" class="easyui-linkbutton"
+			<a href="javascript:openSUserAddDialog()" class="easyui-linkbutton"
 				iconCls="icon-add" plain="true">添加</a> <a
-				href="javascript:openUserModifyDialog()" class="easyui-linkbutton"
+				href="javascript:openSUserModifyDialog()" class="easyui-linkbutton"
 				iconCls="icon-edit" plain="true">修改</a> <a
-				href="javascript:deleteUser()" class="easyui-linkbutton"
+				href="javascript:deleteSUser()" class="easyui-linkbutton"
 				iconCls="icon-remove" plain="true">删除</a>
 		</div>
 		<div>
-			&nbsp;用户名：&nbsp;<input type="text" id="s_userName" size="20"
-				onkeydown="if(event.keyCode==13) searchUser()" /> <a
-				href="javascript:searchUser()" class="easyui-linkbutton"
+			&nbsp;姓名：&nbsp;<input type="text" id="name" size="20"
+				onkeydown="if(event.keyCode==13) searchSUser()" /> <a
+				href="javascript:searchSUser()" class="easyui-linkbutton"
 				iconCls="icon-search" plain="true">搜索</a>
 		</div>
 	</div>
@@ -179,34 +163,35 @@
 		<form id="fm" method="post">
 			<table cellspacing="8px">
 				<tr>
-					<td>用户名：</td>
+					<td>姓名：</td>
 					<td><input type="text" id="userName" name="userName"
 						class="easyui-validatebox" required="true" />&nbsp;<font
 						color="red">*</font> <input type="hidden" id="userId" value="0">
 					</td>
 				</tr>
+				
 				<tr>
 					<td>密码：</td>
-					<td><input type="text" id="password" name="password"
+					<td><input type="password" id="password" name="password"
 						class="easyui-validatebox" required="true" />&nbsp;<font
-						color="red">*</font></td>
-				</tr>
-				<tr>
-					<td>权限：</td>
-					<td>
-						<select id='role' name='role'>
-							<option value='-1'>---请选择权限---</option>
-						</select>
-						&nbsp;<font color="red">*</font>
+						color="red">*</font> 
 					</td>
 				</tr>
+				<tr>
+					<td>状态：</td>
+					<td><input type="state" id="state" name="state"
+						class="easyui-validatebox" required="true" />&nbsp;<font
+						color="red">*</font> 
+					</td>
+				</tr>
+				
 			</table>
 		</form>
 	</div>
 
 	<div id="dlg-buttons">
-		<a href="javascript:saveUser()" class="easyui-linkbutton"
-			iconCls="icon-ok">保存</a> <a href="javascript:closeUserDialog()"
+		<a href="javascript:saveSUser()" class="easyui-linkbutton"
+			iconCls="icon-ok">保存</a> <a href="javascript:closeSUserDialog()"
 			class="easyui-linkbutton" iconCls="icon-cancel">关闭</a>
 	</div>
 </body>

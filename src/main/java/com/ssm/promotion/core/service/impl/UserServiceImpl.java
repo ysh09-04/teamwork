@@ -1,5 +1,8 @@
 package com.ssm.promotion.core.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -42,6 +45,41 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public SUser getUserByName(String userName) {
 		return userDao.getUserByName(userName);
+	}
+
+
+	@Override
+	public List<SUser> findSUser(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return userDao.findSUser(map);
+	}
+
+
+	@Override
+	public Long getTotalSUser(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return userDao.getTotalSUser(map);
+	}
+
+
+	@Override
+	public int updateSUser(SUser user) {
+		// TODO Auto-generated method stub
+		return userDao.updateSUser(user);
+	}
+
+
+	@Override
+	public int deleteSUser(Integer userId) {
+		// TODO Auto-generated method stub
+		return userDao.deleteSUser(userId);
+	}
+
+
+	@Override
+	public SUser getSUserById(Integer userId) {
+		// TODO Auto-generated method stub
+		return userDao.getSUserById(userId);
 	}
 
 
