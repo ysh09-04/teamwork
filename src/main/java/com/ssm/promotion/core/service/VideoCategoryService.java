@@ -1,4 +1,4 @@
-package com.ssm.promotion.core.dao;
+package com.ssm.promotion.core.service;
 
 import java.util.List;
 import java.util.Map;
@@ -8,17 +8,11 @@ import org.apache.ibatis.annotations.Param;
 import com.ssm.promotion.core.entity.VideoCategory;
 
 /**
- * 视频类目
+ * 视频类
  * @author 尤少辉
- * @日期 2018年7月1日
+ * @日期 2018年7月2日
  */
-public interface VideoCategoryDao {
-	/**
-	 * 根据课程id查询要删除的ID集合
-	 * @param categoryId
-	 * @return
-	 */
-	public List<Integer> findByCourseId(int courseId);
+public interface VideoCategoryService {
 	/**
 	 * 根据ID删除
 	 * @param courseId

@@ -14,6 +14,11 @@ import com.ssm.promotion.core.entity.Course;
  */
 public interface CourseDao {
 	/**
+	 * 查询全部信息的名字和ID
+	 * @return
+	 */
+	public List<Course> findAll();
+	/**
 	 * 根据类目id查询要删除的ID集合
 	 * @param categoryId
 	 * @return

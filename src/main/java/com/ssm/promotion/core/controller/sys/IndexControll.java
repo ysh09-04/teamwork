@@ -15,6 +15,10 @@ import com.ssm.promotion.core.service.FatherMenuService;
 
 @Controller
 public class IndexControll {
+	/**
+	 * 跳转到登录界面
+	 * @return
+	 */
 	@RequestMapping("login")
 	public String index() {
 		return "login";
@@ -23,7 +27,7 @@ public class IndexControll {
 	@Autowired
 	private FatherMenuService fatherMenuService;
 	/**
-	 * 查询全部
+	 * 显示菜单
 	 * @return
 	 */
 	@RequestMapping("/main")

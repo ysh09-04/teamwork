@@ -1,6 +1,7 @@
 package com.ssm.promotion.core.dto;
 
 import com.ssm.promotion.core.entity.Category;
+import com.ssm.promotion.core.entity.Course;
 
 /**
  * 自己和父类的关联

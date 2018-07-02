@@ -36,12 +36,22 @@ public class CourseControll {
 	private static final Logger log = Logger.getLogger(UserController.class);// 日志文件
 	
 	/**
-	 * 跳转到菜单
+	 * 跳转到课程
 	 * @return
 	 */
 	@RequestMapping("toCourse")
 	public String toCourse(){
 		return "course/courseManage";
+	}
+	/**
+	 * 查询全部的id和课程名
+	 * @return
+	 */
+	@RequestMapping("linkbutton")
+	@ResponseBody
+	public List<Course> linkbutton(){
+		List<Course> courses= courseService.findAll();
+		return courses;
 	}
 	/**
 	 * 模糊查询和查询全部
@@ -75,7 +85,7 @@ public class CourseControll {
 	}
 	
 	/**
-	 * 添加或修改管理员
+	 * 添加或修改课程
 	 * 
 	 * @return
 	 * @throws Exception
@@ -111,7 +121,7 @@ public class CourseControll {
 	}
 
 	/**
-	 * 删除管理员
+	 * 删除课程
 	 * 
 	 * @param ids
 	 * @return

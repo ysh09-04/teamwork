@@ -13,6 +13,11 @@ import com.ssm.promotion.core.entity.Course;
  */
 public interface CourseService {
 	/**
+	 * 查询全部信息的名字和ID
+	 * @return
+	 */
+	public List<Course> findAll();
+	/**
 	 * 根据ID删除
 	 * @param courseId
 	 * @return

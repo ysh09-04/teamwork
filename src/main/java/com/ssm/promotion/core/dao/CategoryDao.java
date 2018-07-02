@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.ssm.promotion.core.dto.CategoryCategoryDto;
 import com.ssm.promotion.core.entity.Category;
 
 /**

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssm.promotion.core.common.Result;
 import com.ssm.promotion.core.common.ResultGenerator;
-import com.ssm.promotion.core.dto.CategoryCategoryDto;
 import com.ssm.promotion.core.entity.Category;
 import com.ssm.promotion.core.entity.PageBean;
 import com.ssm.promotion.core.service.CategoryService;
@@ -91,7 +90,7 @@ public class CategoryControll {
 	}
 	
 	/**
-	 * 添加或修改管理员
+	 * 添加或修改类目
 	 * 
 	 * @return
 	 * @throws Exception
@@ -127,7 +126,7 @@ public class CategoryControll {
 	}
 
 	/**
-	 * 删除管理员
+	 * 删除类目
 	 * 
 	 * @param ids
 	 * @return

@@ -169,5 +169,14 @@ public class CourseServiceImpl implements CourseService {
 		// TODO Auto-generated method stub
 		return courseDao.update(course);
 	}
+	/**
+	 * 查询全部信息的名字和ID
+	 * @return
+	 */
+	@Override
+	public List<Course> findAll() {
+		// TODO Auto-generated method stub
+		return courseDao.findAll();
+	}
 
 }

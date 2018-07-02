@@ -41,4 +41,9 @@
          enabledCourse=#{enabledCourse},enabledPaper=#{enabledPaper},categoryId=#{categoryId} 
          WHERE courseId=#{courseId}
      </update>
+     <!-- 查询全部信息 -->
+     <select id="findAll" resultType="Course">
+          SELECT courseId,courseName 
+          FROM course
+     </select>
 </mapper>

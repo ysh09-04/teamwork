@@ -99,7 +99,7 @@ public class RoleController {
 		}
 	}
 	/**
-	 * 删除管理员
+	 * 删除角色
 	 * 
 	 * @param ids
 	 * @return

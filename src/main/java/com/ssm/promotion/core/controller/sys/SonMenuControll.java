@@ -30,7 +30,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
- * 父菜单
+ * 子菜单
  * @author 尤少辉
  * @日期 2018年6月30日
  */
@@ -82,7 +82,7 @@ public class SonMenuControll {
 	}
 	
 	/**
-	 * 添加或修改管理员
+	 * 添加或修改子菜单
 	 * 
 	 * @return
 	 * @throws Exception
@@ -118,7 +118,7 @@ public class SonMenuControll {
 	}
 
 	/**
-	 * 删除管理员
+	 * 删除子菜单
 	 * 
 	 * @param ids
 	 * @return

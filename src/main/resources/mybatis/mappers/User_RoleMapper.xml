@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.User_RoleDao">
+     <!-- 用户关联角色 -->
+     <resultMap type="UserRoleDto" id="UserRoleDtoResultMap">
+         <id column="userId" property="userId"/>
+         <result column="userName" property="userName"/>
+         <result column="password" property="password"/>
+         <result column="uuid" property="uuid"/>
+         <result column="state" property="state"/>
+         <collection property="sRoles" ofType="SRole">
+              <id column="roleId" property="roleId"/>
+              <result column="roleName" property="roleName"/>
+              <result column="roleDescribe" property="roleDescribe"/>
+              <result column="enabled" property="enabled"/>
+         </collection>
+     </resultMap>
+     <!-- 添加 -->
+     <insert id="save" parameterType="UserRole">
+         INSERT INTO user_role(userId,roleId) values (#{userId},#{roleId})
+     </insert>
+     <!-- 修改 -->
+     <update id="update" parameterType="UserRole">
+         UPDATE user_role SET roleId=#{roleId} WHERE userId=#{userId}
+     </update>
+     <!-- 删除 -->
+     <delete id="delete" parameterType="UserRole">
+         DELETE FROM user_role WHERE roleId=#{roleId} AND userId=#{userId}
+     </delete>
+    
+</mapper>

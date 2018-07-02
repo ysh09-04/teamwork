@@ -11,4 +11,55 @@
      <delete id="delete" parameterType="int">
          DELETE FROM videocategory WHERE videoCategoryId=#{0}
      </delete>
+     <!-- 添加 -->
+     <insert id="save" parameterType="VideoCategory">
+        INSERT INTO videocategory(videoCategoryName,videoCategoryDescribe,courseId) 
+        values(#{videoCategoryName},#{videoCategoryDescribe},#{courseId});
+     </insert>
+     <!-- 修改 -->
+     <update id="update" parameterType="VideoCategory">
+         UPDATE videocategory 
+         SET
+         <if test="videoCategoryName!=null and videoCategoryName!=''">
+            videoCategoryName=#{videoCategoryName},
+         </if>  
+         <if test="videoCategoryDescribe!=null and videoCategoryDescribe!=''">
+             videoCategoryDescribe=#{videoCategoryDescribe},
+         </if>  
+        <if test="courseId!=null and courseId!=''">
+             courseId=#{courseId}
+         </if> 
+         WHERE videoCategoryId=#{videoCategoryId}
+     </update>
+     <resultMap type="VideoCategoryCourseDto" id="videoCategoryCategoryDtoResultMap">
+         <id column="videoCategoryId" property="videoCategoryId"/>
+         <result column="videoCategoryName" property="videoCategoryName"/>
+         <result column="videoCategoryDescribe" property="videoCategoryDescribe"/>
+         <association property="course" javaType="course">
+             <id column="courseId" property="courseId"/>
+             <result column="courseName" property="courseName"/>
+         </association>
+     </resultMap>
+     <!-- 根据name模糊查询/查询全部  分页 -->
+     <select id="findByNameOrAllPage" parameterType="Map" resultMap="videoCategoryCategoryDtoResultMap">
+         SELECT videoCategoryId,videoCategoryName,videoCategoryDescribe,c.courseId,courseName
+         FROM videocategory v,course c
+         WHERE v.courseId=c.courseId 
+         <if test="videoCategoryName!=null and videoCategoryName!=''">
+              AND videoCategoryName like #{videoCategoryName}
+         </if>
+         <if test="pageSize !=null and start !=null">
+            limit #{start},#{pageSize}
+         </if>
+     </select>
+     <!-- 统计个数 -->
+     <select id="findByNameOrAllCount" parameterType="string" resultType="int">
+         SELECT COUNT(1) 
+         FROM videocategory
+         <where>
+            <if test="videoCategoryName!=null and videoCategoryName!=''">
+               AND videoCategoryName like #{videoCategoryName}
+            </if>
+         </where>
+     </select>
 </mapper>
