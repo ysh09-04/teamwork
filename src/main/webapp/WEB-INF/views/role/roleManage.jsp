@@ -31,7 +31,7 @@
 	<!-- dialog -->
 	<div id="dlg" class="easyui-dialog" style="width: 620px;height:250px;padding: 10px 20px" closed="true" >
 		<form id="add_form" method="post">
-			<input type="hidden" name='id' id='id' />
+			<input type="hidden" name='roleId' id='roleId' />
 			<table cellspacing="8px">
 				<tr>
 					<td>权限名称：</td>
@@ -40,14 +40,16 @@
 						color="red">*</font></td>
 					<td>状态:</td>
 					<td>
-						启用<input type="radio" name="status" id="startup" value="1" />
-						禁用<input type="radio" name="status" id="forbid" value="0" />
-					</td>
+                        <select class='easyui-combobox' id="enabled" name='enabled'  >
+                            <option value="启用" >--启用--</option>
+                            <option value="禁用" >--禁用--</option>                      
+                        </select>
+                    </td>
 				</tr>
 				<tr>
 					<td>描述:</td>
 					<td>
-						<input type='text' name='description' id='description' class='easyui-validatebox' required='true'/>
+						<input type='text' name='roleDescribe' id='roleDescribe' class='easyui-validatebox' required='true'/>
 						<%--<font color='red'>*</font>--%>
 					</td>
 					<%--<td>角色</td>

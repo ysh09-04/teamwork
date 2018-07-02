@@ -5,7 +5,7 @@ var allChlidMenus;
 $(function() {
 	// datagrid
 	$('#dg').datagrid({
-		url : 'sys/role/datagrid',
+		url : 'role/datagrid',
 		title : '角色管理',
 		// width : '100%',
 		fitColumns : true,
@@ -14,68 +14,26 @@ $(function() {
 		singleSelect : true,
 		checkOnSelect : true,
 		columns : [ [ {
-			field : 'id',
+			field : 'roleId',
 			title : '编号',
 			checkbox : true
 		},{
-			field: 'grade',
-			title: '等级',
-			hidden: true
-		}, {
 			field : 'roleName',
 			title : '权限名称',
 			width : 60
-		}, {
-			field : 'isUsed',
-			title : '状态',
-			width : 40,
-			rownumbers : true,
-			formatter : function(value, row, index) {
-				if (value == 0) {
-					return "<font color='red'>禁用</font>";
-				} else if (value == 1) {
-					return "<font color='green'>启用</font>";
-				}
-			}
-		}, {
-			field: "description",
+		},
+		{
+			field: 'roleDescribe',
 			title: '描述',
-			width: 100
-		},{
-			field : 'createTime',
-			title : '创建时间',
-			width : 80,
-			sortable : true,
-			formatter : function(date) {
-				 var unixTimestamp = new Date(date.time);  
-		         return unixTimestamp.toLocaleString();  
-			}
-		}, {
-			field : 'createBy',
-			title : '创建人',
 			width : 60
-		}, {
-			field : "Action",
-			title : "操作",
-			width : 160,
-			align : 'center',
-			formatter : function(value, row, index) {
-				if (row.grade == 99) {
-					return "";
-				} 
-				var oper1;
-				if (row.isUsed == 1) {//已启用
-					oper1 = "<a href='javascript:void(0);' onclick=\"forbid("+ row.id +")\" >禁用 </a>&nbsp;|";
-				} else if (row.isUsed == 0){//已禁用
-					oper1 = "<a href='javascript:void(0);' onclick=\"startup("+ row.id +")\" >启用 </a>&nbsp;|";
-				}
-				var oper2 = "&nbsp;<a href='javascript:void(0);' onclick=\"authMenu("+ row.id +")\" >授权菜单 </a>&nbsp;|"
-				var oper3 = "&nbsp;<a href='javascript:void(0);' onclick=\"detail("+ row.id +")\" >查看详情 </a>&nbsp;"
-				return oper1 + oper2 + oper3;
-			}
-		} ] ],
+		},{
+			field: 'enabled',
+			title: '是否启用',
+			width : 60
+		}
+		 ] ],
 		pagination : true,
-		pageSize : 20,
+		pageSize : 10,
 		pageList : [ 10, 20, 35, 50 ],
 		toolbar : '#tb'
 	});
@@ -112,18 +70,11 @@ function editPage() {
 		return;
 	}
 	var row = selectedRows[0];
-	if (row.grade == 99) {
-		$.messager.alert("系统提示", "您无法对超级管理员进行操作!");
-		return;
-	}
-	$('#id').val(row.id);
-	if (row.isUsed == 1) {
-		$("#startup").prop("checked", "checked");
-	} else {
-		$("#forbid").prop("checked", "checked");
-	}
+	
+	$('#roleId').val(row.roleId);	
 	$('#roleName').val(row.roleName);
-	$('#description').val(row.description);
+	$('#roleDescribe').val(row.roleDescribe);
+	$("#enabled").combobox('select',row.enabled);
 	$('#dlg').dialog({
 		title : '编辑权限',
 		closed : false,
@@ -146,23 +97,21 @@ function editPage() {
 
 function add(){
 	var roleName = $('#roleName').val();
-	var status = $("input[name = 'status']:checked").val();
-	var description = $('#description').val();
+	
+	var roleDescribe = $('#roleDescribe').val();
+	var enabled= $("#enabled").combobox('getValue');
 	if (roleName == null || roleName == '') {
 		$.messager.alert("系统提示", "请输入权限名称");
 		return;
 	}
-	if (status == null || status == '') {
-		$.messager.alert("系统提示", "请选择状态");
-		return;
-	}
+	
 	var data = {
 		roleName: roleName,
-		isUsed: status,
-		description: description
+		enabled: enabled,
+		roleDescribe: roleDescribe
 	}
 	$.ajax({
-		url: 'sys/role/add',
+		url: 'role/add',
 		data: JSON.stringify(data),
 		type: 'POST',
 		dataType: 'json',
@@ -183,26 +132,23 @@ function add(){
 }
 
 function edit(){
-	var id = $('#id').val();
+	var roleId = $('#roleId').val();
 	var roleName = $('#roleName').val();
-	var status = $("input[name = 'status']:checked").val();
-	var description = $('#description').val();
+	var roleDescribe = $('#roleDescribe').val();
+	var enabled= $("#enabled").combobox('getValue');
 	if (roleName == null || roleName == '') {
 		$.messager.alert("系统提示", "请输入权限名称");
 		return;
 	}
-	if (status == null || status == '') {
-		$.messager.alert("系统提示", "请选择状态");
-		return;
-	}
+	
 	var data = {
-		id: id,
+	    roleId: roleId,
 		roleName: roleName,
-		isUsed: status,
-		description: description
+		enabled: enabled,
+		roleDescribe: roleDescribe
 	}
 	$.ajax({
-		url: 'sys/role/update',
+		url: 'role/update',
 		data: JSON.stringify(data),
 		type: 'POST',
 		dataType: 'json',
@@ -229,17 +175,14 @@ function del() {
 		return;
 	}
 	var row = selectedRows[0];
-	if (row.grade == 99) {
-		$.messager.alert("系统提示", "您无法对超级管理员进行操作!");
-		return;
-	}
+
 	$.messager.confirm("系统提示", "您确定要删除这条数据吗?", function(r) {
 		if (r) {
 			$.ajax({
-				url : 'sys/role/delete/' + row.id,
+				url : 'role/delete',
 				dataType : 'json',
-				type : 'DELETE',
-				data : {},
+				type : 'POST',
+				data : {roleId:row.roleId},
 				success : function(result) {
 					if (result.resultCode == 200) {
 						$.messager.alert("系统提示", "删除成功!");
@@ -256,9 +199,10 @@ function del() {
 }
 
 function reset(){
-	$('#id').val('');
-	$('roleName').val('');
-	$('description').val('');
+	$('#roleId').val('');
+	$('#roleName').val('');
+	$('#roleDescribe').val('');	
+	$("#enabled").combobox('getValue',"");	
 	/*$("input[ name = 'status']").prop("checked", "checked");*/
 }
 
