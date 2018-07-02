@@ -1,19 +1,12 @@
-package com.ssm.promotion.core.dao;
+package com.ssm.promotion.core.service;
 
 import java.util.List;
 import java.util.Map;
 
 import com.ssm.promotion.core.dto.PaperCourseDto;
 import com.ssm.promotion.core.entity.Paper;
-import com.ssm.promotion.core.entity.Product;
 
-
-/**
- * 考卷
- * @author 尤少辉
- * @日期 2018年7月1日
- */
-public interface PaperDao {
+public interface PaperService {
 	/**
 	 * 根据课程id查询要删除的ID集合
 	 * @param categoryId

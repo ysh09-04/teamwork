@@ -22,9 +22,11 @@ import com.ssm.promotion.core.common.Constants;
 import com.ssm.promotion.core.common.Result;
 import com.ssm.promotion.core.common.ResultGenerator;
 import com.ssm.promotion.core.entity.PageBean;
+import com.ssm.promotion.core.entity.Product;
 import com.ssm.promotion.core.entity.SUser;
 
-import com.ssm.promotion.core.service.UserService;
+import com.ssm.promotion.core.service.ProductService;
+
 import com.ssm.promotion.core.util.MD5Util;
 import com.ssm.promotion.core.util.ResponseUtil;
 import com.ssm.promotion.core.util.StringUtil;
@@ -38,66 +40,28 @@ import net.sf.json.JSONObject;
  * @date 2017-3-1
  */
 @Controller
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("/product")
+public class ProductController {
 
 	@Resource
-	private UserService userService;
+	private ProductService productService;
+	
+	@RequestMapping("/product")
+	public String product() {
+		return "product/productmanage";
+	}
+	
 	/**
-	 * 登录
-	 * 
+	 * 增加
 	 * @param user
-	 * @return
-	 */
-	@RequestMapping(value = "/doLogin", method = RequestMethod.POST)
-	@ResponseBody
-	public Result login(SUser user, HttpServletRequest request,
-			HttpServletResponse response) {
-		HttpSession session = request.getSession();;
-		SUser sUser= userService.getUserByName(user.getUserName());
-		String MD5pwd = MD5Util.MD5Encode(user.getPassword(), "UTF-8");
-		System.out.println(MD5pwd);
-		if(sUser.getPassword().equals(MD5pwd)){
-			Map data = new HashMap();
-			session.setAttribute(Constants.SESSION_USER, sUser);
-			data.put("currentUser", sUser);
-			return ResultGenerator.genSuccessResult(data);
-		}
-		return ResultGenerator.genFailResult("账号状态异常，请联系管理员。");
-	}
-
-	
-
-	/**
-	 * 跳转tab
-	 * 
-	 * @return
-	 */
-	@RequestMapping("/list")
-	public String index() {
-		return "user/usermanage";
-	}
-	/**
-	 * 跳转tab
-	 * 
-	 * @return
-	 */
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
-	}
-	
-	/**
-	 * 添加或修改管理员
-	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value ="", method = RequestMethod.POST)
 	@ResponseBody
-	public Result save(@RequestBody SUser user) throws Exception {
+	public Result save(@RequestBody Product product) throws Exception {
 		int resultTotal = 0;
-		resultTotal = userService.addUser(user);
+		resultTotal = productService.addProduct(product);
 		if (resultTotal > 0) {
 			return ResultGenerator.genSuccessResult();
 		} else {
@@ -110,13 +74,10 @@ public class UserController {
 		 * @return
 		 */
 		
-		@RequestMapping("/findSuser")
-		public String findSuser(){
-			return "user/usermanage";
-		}
+	
 
 		/**
-		 * datagrid��ҳ�������ݵķ���
+		 * 分页功能
 		 * @param page
 		 * @param rows
 		 * @return
@@ -125,18 +86,18 @@ public class UserController {
 		
 		@RequestMapping("/datagrid")
 		@ResponseBody
-		public List<SUser> findSuser(@Param("page") int page,
-				@Param("rows") int rows,
-				SUser user,HttpServletResponse response) throws Exception{
-			PageBean pageBean = new PageBean(page,rows);
+		public List<Product> findProduct(@Param("page") String page,
+				@Param("rows") String rows,
+				Product product,HttpServletResponse response) throws Exception{
+			PageBean pageBean = new PageBean(Integer.parseInt(page), Integer.parseInt(rows));
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("userName", StringUtil.formatLike(user.getUserName()));
+			map.put("productName", StringUtil.formatLike(product.getProductName()));
 			map.put("start", pageBean.getStart());
 			map.put("size", pageBean.getPageSize());
-			List<SUser> listUser = userService.findSUser(map);
-			Long total = userService.getTotalSUser(map);
+			List<Product> listProduct = productService.findProduct(map);
+			Long total = productService.getTotalProduct(map);
 			JSONObject result = new JSONObject();
-			JSONArray jsonArray = JSONArray.fromObject(listUser);
+			JSONArray jsonArray = JSONArray.fromObject(listProduct);
 			result.put("rows", jsonArray);
 			result.put("total", total);
 			ResponseUtil.write(response, result);
@@ -149,11 +110,12 @@ public class UserController {
 		 */
 		@RequestMapping(value = "/{ids}", method = RequestMethod.DELETE)
 		@ResponseBody
-		public Result deleteSUser(@PathVariable(value = "ids") String ids){
-			String[] userIds=ids.split(",");
+		public Result deleteProduct(@PathVariable(value = "ids") String ids){
+			String[] productIds=ids.split(",");
 			int resultTotal=0;
-			for (int i = 0; i < userIds.length; i++) {
-				resultTotal=userService.deleteSUser(Integer.parseInt(userIds[i]));
+			for (int i = 0; i < productIds.length; i++) {
+				resultTotal=productService.deleteProduct(Integer.parseInt(productIds[i]));
+				
 			}
 			if (resultTotal > 0) {
 				return ResultGenerator.genSuccessResult();
@@ -164,10 +126,10 @@ public class UserController {
 	
 	@RequestMapping(value="",method=RequestMethod.PUT)
 	@ResponseBody
-	public Result updateSUser(@RequestBody SUser user){
+	public Result updateProduct(@RequestBody Product product){
 		
 		int resultTotal = 0;
-		resultTotal = userService.updateSUser(user);
+		resultTotal = productService.updateProduct(product);
 		if (resultTotal > 0) {
 			return ResultGenerator.genSuccessResult();
 		} else {

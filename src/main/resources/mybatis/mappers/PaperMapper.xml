@@ -11,4 +11,66 @@
      <delete id="delete" parameterType="int">
          DELETE FROM paper WHERE paperId=#{0}
      </delete>
+     
+     <resultMap type="PaperCourseDto" id="PaperCourseDtoResultMap">
+         <id column="paperId" property="paperId"/>
+         <result column="paperTotalScore" property="paperTotalScore"/>
+         <result column="paperDescription" property="paperDescription"/>
+         <result column="paperName" property="paperName"/>
+         <result column="paperType" property="paperType"/>
+         <association property="course" javaType="Course">
+            <id column="courseId" property="courseId"/>
+            <result column="courseName" property="courseName"/>
+            <result column="courseDescribe" property="courseDescribe"/>
+            <result column="enabledCourse" property="enabledCourse"/>
+            <result column="enabledPaper" property="enabledPaper"/>
+            <result column="categoryId" property="categoryId"/>
+         </association>
+     </resultMap>
+     
+     <!-- 查询全部和模糊查询 -->
+	<select id="findPaper" parameterType="Map"
+		resultMap="PaperCourseDtoResultMap">
+		SELECT 
+		p.paperId,p.paperTotalScore,p.paperDescription,
+		p.paperName,p.paperType,p.courseId,c.courseId,c.courseName
+		FROM paper p,course c where p.courseId=c.courseId
+		<if test="paperName!=null and paperName != ''">
+			 AND paperName LIKE #{paperName}
+		</if>
+		<if test="size !=null and start !=null">
+			 limit #{start},#{size}
+		</if>
+	</select>
+	<!-- 统计总记录数 -->
+	<select id="getTotalPaper"  parameterType="string"
+		resultType="Long">
+		select count(1)
+		from paper
+		<where>
+			<if test="paperName!=null and paperName!= ''">
+				AND paperName LIKE #{paperName}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 添加 -->
+	<insert id="addPaper" parameterType="Paper">
+		INSERT INTO
+		paper(paperTotalScore,paperDescription,paperName,paperType,courseId) 
+		values(#{paperTotalScore},#{paperDescription},#{paperName},#{paperType},#{courseId})
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updatePaper" parameterType="Paper">
+		UPDATE paper SET 
+		paperTotalScore=#{paperTotalScore},paperDescription=#{paperDescription} 
+		,paperName=#{paperName},paperType=#{paperType},courseId=#{courseId} 
+		WHERE 
+		paperId=#{paperId}
+	</update>
+	
+
+	
 </mapper>

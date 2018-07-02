@@ -1,18 +1,15 @@
-package com.ssm.promotion.core.entity;
+package com.ssm.promotion.core.dto;
 
-/**
- * 考卷
- * @author 尤少辉
- * @日期 2018年7月1日
- */
-public class Paper {
+import com.ssm.promotion.core.entity.Course;
+
+public class PaperCourseDto {
+	
 	private int paperId;
 	private String paperName;
 	private String paperDescription;
 	private String paperType;
 	private int paperTotalScore;
-	private int courseId;
-	
+	private Course course=new Course();
 	public int getPaperId() {
 		return paperId;
 	}
@@ -43,24 +40,33 @@ public class Paper {
 	public void setPaperTotalScore(int paperTotalScore) {
 		this.paperTotalScore = paperTotalScore;
 	}
-	public int getCourseId() {
-		return courseId;
+	public Course getCourse() {
+		return course;
 	}
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
-	public Paper(int paperId, String paperName, String paperDescription, String paperType, int paperTotalScore,
-			int courseId) {
+	public PaperCourseDto(int paperId, String paperName, String paperDescription, String paperType, int paperTotalScore,
+			Course course) {
 		super();
 		this.paperId = paperId;
 		this.paperName = paperName;
 		this.paperDescription = paperDescription;
 		this.paperType = paperType;
 		this.paperTotalScore = paperTotalScore;
-		this.courseId = courseId;
+		this.course = course;
 	}
-	public Paper() {
+	public PaperCourseDto() {
 		super();
+	}
+	public PaperCourseDto(String paperName, String paperDescription, String paperType, int paperTotalScore,
+			Course course) {
+		super();
+		this.paperName = paperName;
+		this.paperDescription = paperDescription;
+		this.paperType = paperType;
+		this.paperTotalScore = paperTotalScore;
+		this.course = course;
 	}
 	
 }
