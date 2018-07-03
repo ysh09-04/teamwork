@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.FatherMenu_RoleDao">
+<!-- 查找所有和搜索-->
+<resultMap type="RoleFathermenuDto" id="roleFathermenuDtoResultMap">
+        <id column="roleId" property="roleId" />
+        <result column="roleName" property="roleName" />
+        <result column="roleDescribe" property="roleDescribe" />
+        <result column="enabled" property="enabled" />
+        <collection property="fatherMenus" ofType="FatherMenu">
+        <id column="fatherMenuId" property="fatherMenuId" />
+        <result column="menuName" property="menuName" />
+        <result column="muneDescribe" property="muneDescribe" />
+        <result column="icon" property="icon" />
+        
+               
+        </collection>
+</resultMap>
+ <select id="findAll" parameterType="Map" resultMap="roleFathermenuDtoResultMap">
+        SELECT role_fathermenu.roleId,role_fathermenu.fatherMenuId,s_role.roleName,
+        s_role.roleDescribe,s_role.enabled,fathermenu.menuName,
+        fathermenu.muneDescribe,fathermenu.icon
+        FROM role_fathermenu,s_role,fathermenu
+        WHERE role_fathermenu.roleId=s_role.roleId and 
+        role_fathermenu.fatherMenuId=fathermenu.fatherMenuId
+     
+            <if test="roleName!=null and roleName!='' ">
+                and s_role.roleName like #{roleName}
+            </if>
+          
+        
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+      <!-- 计数 -->
+    <select id="getTotalRole_Fathermenu" parameterType="Map" resultType="Long">
+                select count(*) 
+                from role_fathermenu rf,s_role r
+                where r.roleId = rf.roleId
+             <if test="roleName!=null and roleName!='' ">
+                and r.roleName like #{roleName}
+            </if>
+        
+    </select>
+
+</mapper>

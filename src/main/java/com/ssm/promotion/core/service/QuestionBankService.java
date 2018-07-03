@@ -1,29 +1,17 @@
-package com.ssm.promotion.core.dao;
+package com.ssm.promotion.core.service;
 
 import java.util.List;
 import java.util.Map;
 
 import com.ssm.promotion.core.dto.QuestionbankCourseDto;
 import com.ssm.promotion.core.entity.QuestionBank;
-
 /**
- * 题库
- * @author 尤少辉
- * @日期 2018年7月1日
+ * @author 刘家霖
+ * @project_name perfect-ssm
+ * @date 2018-7-2
  */
-public interface QuestionBankDao {
-	/**
-	 * 根据课程id查询要删除的ID集合
-	 * @param categoryId
-	 * @return
-	 */
-	public List<Integer> findByCourseId(int courseId);
-	/**
-	 * 根据ID删除
-	 * @param courseId
-	 * @return
-	 */
-	public int delete(int questionBankId);
+public interface QuestionBankService {
+	
 	/**
      * 查找题库
      *
@@ -51,4 +39,10 @@ public interface QuestionBankDao {
      * @return
      */
     public int update(QuestionBank questionBank);
+    /**
+	 * 根据ID删除
+	 * @param courseId
+	 * @return
+	 */
+	public int delete(int questionBankId);
 }

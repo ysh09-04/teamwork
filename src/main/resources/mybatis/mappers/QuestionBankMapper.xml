@@ -11,4 +11,65 @@
      <delete id="delete" parameterType="int">
          DELETE FROM questionbank WHERE questionBankId=#{0}
      </delete>
+      <!-- 查找所有和搜索-->
+     <resultMap type="QuestionbankCourseDto" id="questionbankCourseDtoResultMap">
+        <id column="questionBankId" property="questionBankId" />
+        <result column="questionBankName" property="questionBankName" />
+        <result column="questionBankDescribe" property="questionBankDescribe" />
+        <result column="visitTimes" property="visitTimes" />
+        <result column="purchaseTimes" property="purchaseTimes" />
+        <association property="course" javaType="course">
+        <id column="courseId" property="courseId" />
+         <result column="courseName" property="courseName" />
+        
+        
+        </association>
+     </resultMap>
+     <select id="findAll" parameterType="Map" resultMap="questionbankCourseDtoResultMap">
+        SELECT questionbank.questionBankId,questionbank.questionBankName,
+        questionbank.questionBankDescribe,questionbank.visitTimes,
+        questionbank.purchaseTimes,course.courseName,course.courseId
+        FROM questionbank,course
+        WHERE questionbank.courseId=course.courseId
+     
+            <if test="questionBankName!=null and questionBankName!='' ">
+                and questionBankName like #{questionBankName}
+            </if>
+          
+        
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+    <!-- 计数 -->
+    <select id="getTotalQuestionbank" parameterType="Map" resultType="Long">
+        select count(*) from questionbank
+        <where>
+            <if test="questionBankName!=null and questionBankName!='' ">
+                and questionBankName like #{questionBankName}
+            </if>
+        </where>
+    </select>
+    <!-- 添加 -->
+    <insert id="add" parameterType="QuestionBank">
+        insert into questionbank(questionBankId,questionBankName,questionBankDescribe,visitTimes,purchaseTimes,courseId)
+        values(#{questionBankId},#{questionBankName},#{questionBankDescribe},#{visitTimes},#{purchaseTimes},#{courseId})
+    </insert>
+     <!-- 修改 -->
+     <update id="update" parameterType="QuestionBank" >
+        update questionbank
+        <set>
+            <if test="questionBankName!=null and questionBankName!='' ">
+                `questionBankName`=#{questionBankName},
+            </if>
+            <if test="questionBankDescribe!=null and questionBankDescribe!='' ">
+                `questionBankDescribe`=#{questionBankDescribe},
+            </if>
+            <if test="courseId!=null and courseId!='' ">
+                `courseId`=#{courseId},
+            </if>
+           
+        </set>
+                where `questionBankId`=#{questionBankId}
+    </update>
 </mapper>

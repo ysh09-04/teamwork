@@ -141,4 +141,17 @@ public class CourseControll {
 		log.info("request: article/delete , ids: " + ids);
 		return ResultGenerator.genSuccessResult();
 	}
+	/**
+	 * 查询全部
+	 * 
+	 * @param 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("findAll")
+	@ResponseBody
+	public List<Course> findAll(){
+		List<Course> listCourses= courseService.findAll();
+		return listCourses;
+	}
 }
