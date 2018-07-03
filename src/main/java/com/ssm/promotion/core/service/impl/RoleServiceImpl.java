@@ -52,4 +52,10 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.deleteSRole(roleId);
 	}
 
+	@Override
+	public List<SRole> findAll() {
+		// TODO Auto-generated method stub
+		return roleDao.findAll();
+	}
+
 }

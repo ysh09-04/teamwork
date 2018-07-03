@@ -2,21 +2,19 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssm.promotion.core.dao.FatherMenu_RoleDao">
-<!-- 查找所有和搜索-->
+<mapper namespace="com.ssm.promotion.core.dao.Role_FathermenuDao">
+ <!-- 查找所有和搜索-->
 <resultMap type="RoleFathermenuDto" id="roleFathermenuDtoResultMap">
         <id column="roleId" property="roleId" />
+        <id column="fatherMenuId" property="fatherMenuId" />
         <result column="roleName" property="roleName" />
         <result column="roleDescribe" property="roleDescribe" />
         <result column="enabled" property="enabled" />
-        <collection property="fatherMenus" ofType="FatherMenu">
-        <id column="fatherMenuId" property="fatherMenuId" />
-        <result column="menuName" property="menuName" />
-        <result column="muneDescribe" property="muneDescribe" />
-        <result column="icon" property="icon" />
-        
-               
-        </collection>
+        <association property="fatherMenus" javaType="FatherMenu">
+            <result column="menuName" property="menuName" />
+            <result column="muneDescribe" property="muneDescribe" />
+            <result column="icon" property="icon" />
+        </association>
 </resultMap>
  <select id="findAll" parameterType="Map" resultMap="roleFathermenuDtoResultMap">
         SELECT role_fathermenu.roleId,role_fathermenu.fatherMenuId,s_role.roleName,
@@ -45,5 +43,28 @@
             </if>
         
     </select>
-
+     <!-- 添加 --> 
+      <insert id="add" parameterType="role_Fathermenu">
+        insert into role_fathermenu(roleId,fatherMenuId)
+        values(#{roleId},#{fatherMenuId})
+    </insert>
+      <!-- 修改 -->
+      <update id="update" parameterType="Map" >
+        update role_fathermenu
+        <set>
+            <if test="roleId!=null and roleId!='' ">
+                `roleId`=#{roleId},
+            </if>
+            <if test="fatherMenuId!=null and fatherMenuId!='' ">
+                `fatherMenuId`=#{fatherMenuId},
+            </if>
+          
+        </set>
+        where `roleId`=#{oldroleId} and `fatherMenuId`=#{oldFatherMenu}
+    </update>
+    <!-- 删除角色父菜单 -->
+    <delete id="delete" parameterType="Integer">
+        delete from role_fathermenu
+        where roleId=#{roleId} and fatherMenuId=#{fatherMenuId}
+    </delete>
 </mapper>

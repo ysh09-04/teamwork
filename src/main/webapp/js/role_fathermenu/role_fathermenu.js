@@ -6,7 +6,7 @@ $(function() {
 	// datagrid
 	$('#dg').datagrid({
 		url : 'Role_Fathermenu/datagrid',
-		title : '题库管理',
+		title : '角色父菜单管理',
 		// width : '100%',
 		fitColumns : true,
 		loadMsg : '数据加载中,请稍后...',
@@ -14,10 +14,15 @@ $(function() {
 		singleSelect : true,
 		checkOnSelect : true,
 		columns : [ [ {
-			field : 'roleId',
+			field : 'role_fatherMenuId',
 			title : '编号',
 			checkbox : true
 		},{
+			field : 'roleId',
+			title : '角色Id',
+			width : 60
+		},
+		{
 			field : 'roleName',
 			title : '角色名',
 			width : 60
@@ -31,28 +36,13 @@ $(function() {
 			title: '是否启用',
 			width : 60,
 		},{
-			field: 'sonMenuId',
-			title: '是否启用',
+			field: 'fatherMenuId',
+			title: '父菜单ID',
 			width : 60,
-			formatter : function(value, row, index) {
-	    	    var str="";
-	    	    for(var i=0;i<row.fatherMenus.length;i++){
-	    		    str+=row.fatherMenus.sonMenuId+"<br>";
-	    	    }
-				return str;
-			}
-		},
-		{
-			field: 'menuName',
-			title: '是否启用',
+		},{
+			field: 'fatherMenus.menuName',
+			title: '父菜单名',
 			width : 60,
-			formatter : function(value, row, index) {
-	    	    var str="";
-	    	    for(var i=0;i<row.fatherMenus.length;i++){
-	    		    str+=row.fatherMenus.menuName+"<br>";
-	    	    }
-				return str;
-			}
 		}
 		
 		 ] ],
@@ -63,13 +53,26 @@ $(function() {
 	});
 	$.ajax({
 		type:'post',
-		url:'course/findAll',
+		url:'role/findAll',
 		dataType : "json", 
 		success:function(result){
-			$('#courseId').combobox({
+			$('#roleId').combobox({
 			      data : result,
-			      valueField:'courseId',
-			      textField:'courseName'
+			      valueField:'roleId',
+			      textField:'roleName'
+			     });
+		},
+	});
+	
+	$.ajax({
+		type:'post',
+		url:'fatherMenu/linkbutton',
+		dataType : "json", 
+		success:function(result){
+			$('#fatherMenuId').combobox({
+			      data : result,
+			      valueField:'fatherMenuId',
+			      textField:'menuName'
 			     });
 		},
 	});
@@ -77,7 +80,7 @@ $(function() {
 
 function addPage() {
 	$('#dlg').dialog({
-		title : '添加题库',
+		title : '添加角色父菜单',
 		closed : false,
 		cache: false,
 	    width: 600,             
@@ -107,12 +110,9 @@ function editPage() {
 	}
 	var row = selectedRows[0];
 	
-	$('#questionBankId').val(row.questionBankId);	
-	$('#questionBankName').val(row.questionBankName);
-	$('#questionBankDescribe').val(row.questionBankDescribe);
-	$('#visitTimes').val(row.visitTimes);
-	$('#purchaseTimes').val(row.purchaseTimes);
-	$("#courseId").combobox('select',row.course.courseId);
+	$("#roleId").combobox('select',row.roleId);
+	$("#fatherMenuId").combobox('select',row.fatherMenuId);
+	$("#role_fatherMenuId").val(row.role_fatherMenuId);
 	$('#dlg').dialog({
 		title : '编辑权限',
 		closed : false,
@@ -133,25 +133,16 @@ function editPage() {
 	})
 }
 
-function add(){
-	
-	var questionBankName = $('#questionBankName').val();
-	var questionBankDescribe = $('#questionBankDescribe').val();
-	var visitTimes = $('#visitTimes').val();
-	var purchaseTimes = $('#purchaseTimes').val();
-	var courseId= $("#courseId").combobox('getValue');
-	
-	
+function add(){	
+	var roleId= $("#roleId").combobox('getValue');
+	var fatherMenuId= $("#fatherMenuId").combobox('getValue');	
 	var data = {
-			questionBankName: questionBankName,
-			questionBankDescribe: questionBankDescribe,
-			visitTimes: visitTimes,
-			purchaseTimes: purchaseTimes,
-			courseId: courseId
-		
+			roleId: roleId,
+			fatherMenuId: fatherMenuId
+			
 	}
 	$.ajax({
-		url: 'questionBank/add',
+		url: 'Role_Fathermenu/add',
 		data: JSON.stringify(data),
 		type: 'POST',
 		dataType: 'json',
@@ -173,24 +164,19 @@ function add(){
 }
 
 function edit(){
-	var questionBankId = $('#questionBankId').val();
-	var questionBankName = $('#questionBankName').val();
-	var questionBankDescribe = $('#questionBankDescribe').val();
 	
-	var courseId= $("#courseId").combobox('getValue');
-	
-	
+	var roleId= $("#roleId").combobox('getValue');
+	var fatherMenuId= $("#fatherMenuId").combobox('getValue');	
+	var role_fatherMenuId= $("#role_fatherMenuId").val();	
 	var data = {
-			questionBankId:questionBankId,
-			questionBankName: questionBankName,
-			questionBankDescribe: questionBankDescribe,		
-			courseId: courseId
-			
+				roleId: roleId,
+				fatherMenuId: fatherMenuId,
+				role_fatherMenuId:role_fatherMenuId
 	}
 	$.ajax({
-		url: 'questionBank/update',
+		url: 'Role_Fathermenu/update',
 		data: JSON.stringify(data),
-		type: 'POST',
+		method: 'POST',
 		dataType: 'json',
 		contentType : 'application/json; charset=utf-8',
 		success:function(res) {
@@ -219,10 +205,11 @@ function del() {
 	$.messager.confirm("系统提示", "您确定要删除这条数据吗?", function(r) {
 		if (r) {
 			$.ajax({
-				url : 'questionBank/delete',
+				url : 'Role_Fathermenu/delete',
 				dataType : 'json',
 				type : 'POST',
-				data : {questionBankId:row.questionBankId},
+				data : {roleId:row.roleId,
+						fatherMenuId:row.fatherMenuId},
 				success : function(result) {
 					if (result.resultCode == 200) {
 						$.messager.alert("系统提示", "删除成功!");
@@ -239,12 +226,8 @@ function del() {
 }
 
 function reset(){
-	$('#questionBankId').val('');
-	$('#questionBankName').val('');
-	$('#questionBankDescribe').val('');
-	$('#visitTimes').val('');
-	$('#purchaseTimes').val('');
-	$("#courseId").combobox('select',"--请选择--");	
+	$("#roleId").combobox('select',"--请选择--");
+	$("#fatherMenuId").combobox('select',"--请选择--");	
 	/*$("input[ name = 'status']").prop("checked", "checked");*/
 }
 

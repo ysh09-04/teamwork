@@ -12,4 +12,5 @@
       <delete id="delete" parameterType="int">
            DELETE FROM role_fathermenu WHERE fatherMenuId=#{0}
       </delete>
+     
 </mapper>

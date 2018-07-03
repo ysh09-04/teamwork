@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssm.promotion.core.dao.RoleDao">
-    <!-- 查找所有 -->
+    <!-- 分页查找所有  和搜索-->
     <select id="findRole" parameterType="Map" resultType="SRole">
         select roleId,roleName,roleDescribe,enabled from s_role
         <where>
@@ -16,7 +16,7 @@
             limit #{start},#{size}
         </if>
     </select>
-
+  <!-- 计数 -->
     <select id="getTotalRole" parameterType="Map" resultType="Long">
         select count(*) from s_role
         <where>
@@ -52,4 +52,9 @@
         delete from s_role
         where roleId=#{roleId}
     </delete>
+    <!-- 查询所有 -->
+    <select id="findAll" resultType="SRole">
+    select roleId,roleName,roleDescribe,enabled from s_role
+    
+    </select>
 </mapper> 

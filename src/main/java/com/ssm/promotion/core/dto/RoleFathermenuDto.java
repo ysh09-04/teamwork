@@ -9,11 +9,26 @@ import com.ssm.promotion.core.entity.FatherMenu;
  *
  */
 public class RoleFathermenuDto {
+	private int role_fatherMenuId;
 	private int roleId;
+	private int fatherMenuId;
 	private String roleName;
 	private String roleDescribe;
 	private String enabled;
-	private List<FatherMenu> fatherMenus=new ArrayList<FatherMenu>();
+	private FatherMenu fatherMenus=new FatherMenu();
+	
+	public int getFatherMenuId() {
+		return fatherMenuId;
+	}
+	public void setFatherMenuId(int fatherMenuId) {
+		this.fatherMenuId = fatherMenuId;
+	}
+	public int getRole_fatherMenuId() {
+		return role_fatherMenuId;
+	}
+	public void setRole_fatherMenuId(int role_fatherMenuId) {
+		this.role_fatherMenuId = role_fatherMenuId;
+	}
 	public int getRoleId() {
 		return roleId;
 	}
@@ -38,16 +53,18 @@ public class RoleFathermenuDto {
 	public void setEnabled(String enabled) {
 		this.enabled = enabled;
 	}
-	public List<FatherMenu> getFatherMenus() {
+	public FatherMenu getFatherMenus() {
 		return fatherMenus;
 	}
-	public void setFatherMenus(List<FatherMenu> fatherMenus) {
+	public void setFatherMenus(FatherMenu fatherMenus) {
 		this.fatherMenus = fatherMenus;
 	}
-	public RoleFathermenuDto(int roleId, String roleName, String roleDescribe, String enabled,
-			List<FatherMenu> fatherMenus) {
+	public RoleFathermenuDto(int role_fatherMenuId, int roleId, int fatherMenuId, String roleName, String roleDescribe,
+			String enabled, FatherMenu fatherMenus) {
 		super();
+		this.role_fatherMenuId = role_fatherMenuId;
 		this.roleId = roleId;
+		this.fatherMenuId = fatherMenuId;
 		this.roleName = roleName;
 		this.roleDescribe = roleDescribe;
 		this.enabled = enabled;

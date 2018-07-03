@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssm.promotion.core.common.Result;
 import com.ssm.promotion.core.common.ResultGenerator;
+import com.ssm.promotion.core.entity.Course;
 import com.ssm.promotion.core.entity.PageBean;
 import com.ssm.promotion.core.entity.SRole;
 import com.ssm.promotion.core.service.RoleService;
@@ -111,5 +112,18 @@ public class RoleController {
 			throws Exception {		
 		roleService.deleteSRole(roleId);			
 		return ResultGenerator.genSuccessResult();
+	}
+	/**
+	 * 查询全部
+	 * 
+	 * @param 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("findAll")
+	@ResponseBody
+	public List<SRole> findAll(){
+		List<SRole> listRoles= roleService.findAll();
+		return listRoles;
 	}
 }

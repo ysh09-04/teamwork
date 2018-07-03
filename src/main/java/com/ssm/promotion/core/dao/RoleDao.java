@@ -47,4 +47,11 @@ public interface RoleDao {
      * @return
      */
     public int deleteSRole(Integer roleId);
+    /**
+     * 查询所有
+     *
+     * @param 
+     * @return
+     */
+    public List<SRole> findAll();
 }
