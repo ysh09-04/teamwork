@@ -1,7 +1,5 @@
 package com.ssm.promotion.core.dao;
 
-import org.apache.ibatis.annotations.Param;
-
 /**
  * 商品内容
  * @author 尤少辉
@@ -13,5 +11,11 @@ public interface Shop_ContentDao {
 	 * @param shop_Content
 	 * @return
 	 */
-	public int delete(@Param("type")String type,@Param("contentId")int contentId);
+	public int delete(int productId);
+	/**
+	 * 根据contentId查询productId
+	 * @param contentId
+	 * @return
+	 */
+	public int findByContentId(int contentId);
 }

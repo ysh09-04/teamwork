@@ -3,12 +3,74 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssm.promotion.core.dao.VideoDao">
-     <!-- 根据类目的id查询要删除的课程ID -->
-     <select id="findByVideoCategoryId" parameterType="int" resultType="int">
-         SELECT videoId FROM video WHERE videoCategoryId=#{0}
-     </select>
-     <!-- 根据自身的ID删除信息 -->
-     <delete id="delete" parameterType="int">
-         DELETE FROM video WHERE videoId=#{0}
-     </delete>
+	<!-- 根据类目的id查询要删除的课程ID -->
+	<select id="findByVideoCategoryId" parameterType="int"
+		resultType="int">
+		SELECT videoId FROM video WHERE videoCategoryId=#{0}
+	</select>
+	<!-- 根据自身的ID删除信息 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM video WHERE videoId=#{0}
+	</delete>
+	<!-- 添加 -->
+	<insert id="save" parameterType="Video">
+		INSERT INTO
+		video(videoType,videoName,videoUrl,videoSynopsis,enabled,sortId,playNumber,videoCategoryId)
+		VALUES(#{videoType},#{videoName},#{videoUrl},#{videoSynopsis},#{enabled},#{sortId},#{playNumber},#{videoCategoryId})
+	</insert>
+	<!-- 修改 -->
+	<update id="update" parameterType="Video">
+		UPDATE video
+		<set>
+			<if test="videoType!=null and videoType!=''">
+				videoType=#{videoType},
+			</if>
+			<if test="videoName!=null and videoName!=''">
+				videoName=#{videoName},
+			</if>
+			<if test="videoUrl!=null and videoUrl!=''">
+				videoUrl=#{videoUrl},
+			</if>
+			<if test="videoSynopsis!=null and videoSynopsis!=''">
+				videoSynopsis=#{videoSynopsis},
+			</if>
+			<if test="enabled!=null and enabled!=''">
+				enabled=#{enabled},
+			</if>
+			<if test="sortId!=null and sortId!=''">
+				sortId=#{sortId},
+			</if>
+			<if test="playNumber!=null and playNumber!=''">
+				playNumber=#{playNumber},
+			</if>
+			<if test="videoCategoryId!=null and videoCategoryId!=''">
+				videoCategoryId=#{videoCategoryId},
+			</if>
+		</set>
+		WHERE videoId=#{videoId}
+	</update>
+
+	<!-- 视频和视频类目表 -->
+	<resultMap type="VideoVideoCategoryDto" id="videoVideoCategoryDtoResultMap">
+	     <id column="videoId" property="videoId"/>
+	     <result column="videoType" property="videoType"/>
+	     <result column="videoName" property="videoName"/>
+	     <result column="videoUrl" property="videoUrl"/>
+	     <result column="videoSynopsis" property="videoSynopsis"/>
+	     <result column="enabled" property="enabled"/>
+	     <result column="sortId" property="sortId"/>
+	     <result column="playNumber" property="playNumber"/>
+	     <association property="videoCategory" javaType="VideoCategory">
+	         <id column="videoCategoryId" property="videoCategoryId"/>
+	         <result column="videoCategoryName" property="videoCategoryName"/>
+	         <result column="videoCategoryDescribe" property="videoCategoryDescribe"/>
+	     </association>
+	</resultMap>
+	<!-- 根据视频名模糊查询/查询全部 (分页) -->
+	<select id="findByVideoNameOrAllpage" parameterType="string" resultMap="videoVideoCategoryDtoResultMap">
+	    SELECT v.enabled,v.playNumber,v.sortId,v.videoName,v.videoId,v.videoSynopsis,v.videoType,v.videoUrl,
+        vc.videoCategoryId,vc.videoCategoryName
+        FROM video v,videocategory vc
+        WHERE v.videoCategoryId=vc.videoCategoryId AND v.videoName=#{0}
+	</select>
 </mapper>

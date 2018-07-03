@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssm.promotion.core.dao.CourseDao;
 import com.ssm.promotion.core.dao.PaperDao;
 import com.ssm.promotion.core.dao.PaperQuestionDao;
+import com.ssm.promotion.core.dao.ProductDao;
 import com.ssm.promotion.core.dao.QuestionBankDao;
 import com.ssm.promotion.core.dao.QuestionDao;
 import com.ssm.promotion.core.dao.Shop_ContentDao;
@@ -49,6 +50,9 @@ public class CourseServiceImpl implements CourseService {
 
 	@Autowired
 	private Shop_ContentDao shop_ContentDao;
+	
+	@Autowired
+	private ProductDao productDao;
 	/**
 	 * 删除
 	 * @param courseId
@@ -84,7 +88,9 @@ public class CourseServiceImpl implements CourseService {
 			}
 			//删除视频类
 			for (Integer integer : videoCategoryIds) {
-				shop_ContentDao.delete("视频类",integer);
+				int productId= shop_ContentDao.findByContentId(integer);
+				shop_ContentDao.delete(productId);
+				productDao.deleteProduct(productId);
 				videoCategoryDao.delete(integer);
 			}
 		}
@@ -103,7 +109,9 @@ public class CourseServiceImpl implements CourseService {
 			}
 			//删除题库
 			for (Integer integer : questionBankIds) {
-				shop_ContentDao.delete("题库",integer);
+				int productId= shop_ContentDao.findByContentId(integer);
+				shop_ContentDao.delete(productId);
+				productDao.deleteProduct(productId);
 				questionBankDao.delete(integer);
 			}
 		}
@@ -122,7 +130,9 @@ public class CourseServiceImpl implements CourseService {
 			}
 			//删除考卷
 			for (Integer integer : paperIds) {
-				shop_ContentDao.delete("考卷",integer);
+				int productId= shop_ContentDao.findByContentId(integer);
+				shop_ContentDao.delete(productId);
+				productDao.deleteProduct(productId);
 				paperDao.delete(integer);
 			}
 		}

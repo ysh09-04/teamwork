@@ -3,8 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssm.promotion.core.dao.Shop_ContentDao">
-     <!-- 根据类型和contentId删除 -->
+     <!-- productId删除 -->
      <delete id="delete">
-         DELETE FROM shop_content WHERE contentId=#{contentId} AND type=#{type}
+         DELETE FROM shop_content WHERE productId=#{0}
      </delete>
+     <!-- 根据contentId查询productId -->
+     <select id="findByContentId" parameterType="int" resultType="int">
+          SELECT productId FROM shop_content WHERE contentId=#{0}
+     </select>
 </mapper>
