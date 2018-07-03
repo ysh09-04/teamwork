@@ -11,4 +11,77 @@
      <delete id="delete" parameterType="int">
          DELETE FROM question WHERE questionId=#{0}
      </delete>
+     
+     <resultMap type="QuestionAndbankDto" id="QuestionAndbankDtoResultMap">
+         <id column="questionId" property="questionId"/>
+         <result column="questionType" property="questionType"/>
+         <result column="questionContent" property="questionContent"/>
+         <result column="chooseContent" property="chooseContent"/>
+         <result column="answer" property="answer"/>
+         <result column="answerAnalysis" property="answerAnalysis"/>
+         <result column="questionSource" property="questionSource"/>
+         <result column="examinationPointDescription" property="examinationPointDescription"/>
+         <result column="titleAccuracy" property="titleAccuracy"/>
+         <result column="questionSelectionToal" property="questionSelectionToal"/>
+         <result column="questionValue" property="questionValue"/>
+         <association property="questionBank" javaType="QuestionBank">
+            <id column="questionBankId" property="questionBankId"/>
+            <result column="questionBankName" property="questionBankName"/>
+            
+         </association>
+     </resultMap>
+     
+     <!-- 查询全部和模糊查询 -->
+	<select id="findQuestion" parameterType="Map"
+		resultMap="QuestionAndbankDtoResultMap">
+		SELECT 
+		q.questionId,q.questionType,q.questionContent,q.chooseContent,
+		q.answer,q.answerAnalysis,q.questionSource,q.examinationPointDescription,
+		q.titleAccuracy,q.questionSelectionToal,q.questionValue,q.questionBankId,
+		qb.questionBankId,qb.questionBankName
+		FROM question q,questionbank qb
+		WHERE q.questionBankId = qb.questionBankId
+		<if test="questionType!=null and questionType!= ''">
+			 AND questionContent LIKE #{questionContent}
+		</if>
+		<if test="size !=null and start !=null">
+			 limit #{start},#{size}
+		</if>
+	</select>
+	<!-- 统计总记录数 -->
+	<select id="getTotalQuestion"  parameterType="string"
+		resultType="Long">
+		select count(1)
+		from question
+		<where>
+			<if test="questionType!=null and questionType!= ''">
+				AND questionType LIKE #{questionType}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 添加 -->
+	<insert id="addQuestion" parameterType="question">
+		INSERT INTO
+		question(questionType,questionContent,chooseContent,answer,
+		answerAnalysis,questionSource,examinationPointDescription,
+		titleAccuracy,questionSelectionToal,questionValue,questionBankId) 
+		values(#{questionType},#{questionContent},#{chooseContent},#{answer},
+		#{answerAnalysis},#{questionSource},#{examinationPointDescription},
+		#{titleAccuracy},#{questionSelectionToal},#{questionValue},#{questionBankId})
+	</insert>
+
+	<!-- 修改 -->
+	<update id="updateQuestion" parameterType="Question">
+		UPDATE question SET 
+		questionType=#{questionType},questionContent=#{questionContent} 
+		,chooseContent=#{chooseContent},answer=#{answer},
+		answerAnalysis=#{answerAnalysis},questionSource=#{questionSource},
+		examinationPointDescription=#{examinationPointDescription},
+		titleAccuracy=#{titleAccuracy},questionSelectionToal=#{questionSelectionToal},
+		questionValue=#{questionValue},questionBankId=#{questionBankId}
+		WHERE 
+		questionId=#{questionId}
+	</update>
 </mapper>

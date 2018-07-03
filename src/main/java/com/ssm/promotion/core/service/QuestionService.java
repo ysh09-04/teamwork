@@ -1,19 +1,13 @@
-package com.ssm.promotion.core.dao;
+package com.ssm.promotion.core.service;
 
 import java.util.List;
 import java.util.Map;
-
 
 import com.ssm.promotion.core.dto.QuestionAndbankDto;
 import com.ssm.promotion.core.entity.Paper;
 import com.ssm.promotion.core.entity.Question;
 
-/**
- * 题目
- * @author 尤少辉
- * @日期 2018年7月1日
- */
-public interface QuestionDao {
+public interface QuestionService {
 	/**
 	 * 根据题库id查询要删除的ID集合
 	 * @param categoryId
@@ -61,3 +55,5 @@ public interface QuestionDao {
      */
     public int updateQuestion(Question question);
 }
+
+
