@@ -5,11 +5,12 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssm.promotion.core.dao.ProductDao;
 import com.ssm.promotion.core.dao.QuestionBankDao;
 import com.ssm.promotion.core.dao.QuestionDao;
-import com.ssm.promotion.core.dao.RoleDao;
 import com.ssm.promotion.core.dao.Shop_ContentDao;
 import com.ssm.promotion.core.dto.QuestionbankCourseDto;
 import com.ssm.promotion.core.entity.QuestionBank;
@@ -27,6 +28,9 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 	  private Shop_ContentDao shop_ContentDao;
 	  @Resource
 	  private QuestionDao questionDao ;
+	  
+	  @Autowired
+	private ProductDao productDao;
 	  
 	@Override
 	public List<QuestionbankCourseDto> findAll(Map<String, Object> map) {
@@ -57,8 +61,9 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 		//先删除题目表
 		questionDao.delete(questionBankId);
 		//再删除商品表
-		String type="题库";
-		shop_ContentDao.delete(type, questionBankId);
+		int productId= shop_ContentDao.findByContentId(questionBankId);
+		shop_ContentDao.delete(productId);
+		productDao.deleteProduct(productId);
 		
 		return questionBankDao.delete(questionBankId);
 	}
