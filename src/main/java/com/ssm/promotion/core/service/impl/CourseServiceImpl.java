@@ -16,6 +16,7 @@ import com.ssm.promotion.core.dao.QuestionDao;
 import com.ssm.promotion.core.dao.Shop_ContentDao;
 import com.ssm.promotion.core.dao.VideoCategoryDao;
 import com.ssm.promotion.core.dao.VideoDao;
+import com.ssm.promotion.core.dto.CourseCategoryDto;
 import com.ssm.promotion.core.entity.Course;
 import com.ssm.promotion.core.service.CourseService;
 
@@ -145,7 +146,7 @@ public class CourseServiceImpl implements CourseService {
 	 * @return
 	 */
 	@Override
-	public List<Course> findByCourseNameOrAllPage(Map<String, Object> map) {
+	public List<CourseCategoryDto> findByCourseNameOrAllPage(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return courseDao.findByCourseNameOrAllPage(map);
 	}

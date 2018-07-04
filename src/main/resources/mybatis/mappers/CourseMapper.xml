@@ -11,15 +11,27 @@
      <delete id="delete" parameterType="int">
          DELETE FROM course WHERE courseId=#{0}
      </delete>
+     <resultMap type="CourseCategoryDto" id="CourseCategoryDtoResultMap">
+          <id column="courseId" property="courseId"/>
+          <result column="courseName" property="courseName"/>
+          <result column="courseDescribe" property="courseDescribe"/>
+          <result column="enabledCourse" property="enabledCourse"/>
+          <result column="enabledPaper" property="enabledPaper"/>
+          <association property="category" javaType="category">
+               <id column="categoryId" property="categoryId"/>
+               <result column="categoryName" property="categoryName"/>
+          </association>
+     </resultMap>
      <!-- 模糊查询/查询全部(分页) -->
-     <select id="findByCourseNameOrAllPage" parameterType="Map" resultType="Course">
-        SELECT courseId,courseName,courseDescribe,enabledCourse,enabledPaper
-        FROM course 
+     <select id="findByCourseNameOrAllPage" parameterType="Map" resultMap="CourseCategoryDtoResultMap">
+        SELECT courseId,courseName,courseDescribe,enabledCourse,enabledPaper,ca.categoryId,ca.categoryName
+        FROM course c,category ca 
+        WHERE c.categoryId=ca.categoryId
         <if test="courseName!=null and courseName != ''">
              AND courseName LIKE #{courseName}
         </if>
-        <if test="pageSize !=null and start !=null">
-             limit #{start},#{pageSize}
+        <if test="size !=null and start !=null">
+             limit #{start},#{size}
         </if>
      </select>
      <!-- 添加总条数 -->

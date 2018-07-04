@@ -138,7 +138,7 @@
         $("#paperDescription").val("");
         $("#paperName").val("");
         $("#paperType").val("");
-        $("#courseId").val("");
+        $("#courseId").combobox('setValue',"--请选择--");
         
     }
 
@@ -205,10 +205,11 @@
 				</tr>
 				<tr>
 					<td>课程名：</td>
-					<td><input type="text" id="courseId" name="courseId"
-						class="easyui-validatebox" required="true" />&nbsp;<font
-						color="red">*</font> 
-					</td>
+					<td>
+                        <select class='easyui-combobox' id="courseId" name='courseId'  >
+                            <option>--请选择--</option>                      
+                        </select>
+                    </td>
 				</tr>
 				
 				

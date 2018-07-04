@@ -50,4 +50,16 @@ $(function() {
 						pageList : [ 10, 20, 35, 50 ],
 						toolbar : '#tb'
 					});
+	$.ajax({
+		type:'post',
+		url:'course/linkbutton',
+		dataType : "json", 
+		success:function(result){
+			$('#categoryId').combobox({
+			      data : result,
+			      valueField:'courseId',
+			      textField:'courseName',
+			     });
+		},
+	});
 })

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.ssm.promotion.core.dto.CourseCategoryDto;
 import com.ssm.promotion.core.entity.Course;
 /**
  * 课程
@@ -26,7 +27,7 @@ public interface CourseService {
 	/**
 	 * 模糊查询/查询全部(分页)
 	 */
-	public List<Course> findByCourseNameOrAllPage(Map<String, Object> map);
+	public List<CourseCategoryDto> findByCourseNameOrAllPage(Map<String, Object> map);
 	/**
 	 * 模糊查询/查询全部(分页)
 	 */

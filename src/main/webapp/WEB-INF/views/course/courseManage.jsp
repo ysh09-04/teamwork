@@ -126,16 +126,16 @@
         $("#enabledCourse").combobox('select',row.enabledCourse);
         $("#enabledPaper").combobox('select',row.enabledPaper);
         $("#courseId").val(row.courseId);
-        $("#categoryId").combobox('select',row.categoryId);
+        $("#categoryId").combobox('select',row.category.categoryId);
         method = "PUT";
     }
 
     function resetValue() {
         $("#courseName").val("");
         $("#courseDescribe").val("");
-        $("#enabledCourse").combobox('getValue',"");
-        $("#enabledPaper").combobox('getValue',"");
-        $("#categoryId").combobox('getValue',"");
+        $("#enabledCourse").combobox('setValue',"启用");
+        $("#enabledPaper").combobox('setValue',"启用");
+        $("#categoryId").combobox('setValue',"请选择");
     }
 
     function closeUserDialog() {
@@ -205,7 +205,7 @@
                     <td>类目：</td>
                     <td>
                         <select class='easyui-combobox' id="categoryId" name='categoryId'  >
-                            <option value="" >--请选择--</option>                      
+                            <option>--请选择--</option>                      
                         </select>
                     </td>
                 </tr>

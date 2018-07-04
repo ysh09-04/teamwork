@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssm.promotion.core.common.Result;
 import com.ssm.promotion.core.common.ResultGenerator;
+import com.ssm.promotion.core.dto.CourseCategoryDto;
 import com.ssm.promotion.core.entity.Course;
 import com.ssm.promotion.core.entity.PageBean;
 import com.ssm.promotion.core.service.CourseService;
@@ -73,8 +74,8 @@ public class CourseControll {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("courseName", StringUtil.formatLike(courseName.getCourseName()));
 		map.put("start", pageBean.getStart());
-		map.put("size", pageBean.getPageSize());
-		List<Course> courses = courseService.findByCourseNameOrAllPage(map);
+		map.put("pageSize", pageBean.getPageSize());
+		List<CourseCategoryDto> courses = courseService.findByCourseNameOrAllPage(map);
 		Long total = (long) courseService.findByCourseNameOrAllCount(courseName.getCourseName());
 		JSONObject result = new JSONObject();
 		JSONArray jsonArray = JSONArray.fromObject(courses);

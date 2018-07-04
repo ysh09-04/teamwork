@@ -30,7 +30,7 @@ $(function() {
 			title : '是否启用考试',
 			width : 100,
 		}, {
-			field : 'categoryId',
+			field : 'category.categoryName',
 			title : '类目',
 			width : 100,
 		} 

@@ -70,7 +70,7 @@ public class SonMenuControll {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("menuName", StringUtil.formatLike(searchMenu.getMenuName()));
 		map.put("start", pageBean.getStart());
-		map.put("size", pageBean.getPageSize());
+		map.put("pageSize", pageBean.getPageSize());
 		List<SonMenu> sonMenus = sonMenuService.findByMenuNameOrAll(map);
 		Long total = (long) sonMenuService.findAllCount(searchMenu.getMenuName());
 		JSONObject result = new JSONObject();
