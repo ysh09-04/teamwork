@@ -49,4 +49,10 @@ public interface VideoCategoryDao {
 	 * @return
 	 */
 	public int findByNameOrAllCount(@Param("videoCategoryName")String videoCategoryName);
+	 /**
+     * 查询全部
+     * @param 
+     * @return
+     */
+    public List<VideoCategory> findAll(); 
 }

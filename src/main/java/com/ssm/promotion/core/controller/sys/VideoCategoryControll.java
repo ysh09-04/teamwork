@@ -138,4 +138,17 @@ private static final Logger log = Logger.getLogger(UserController.class);// 日�
 		log.info("request: article/delete , ids: " + ids);
 		return ResultGenerator.genSuccessResult();
 	}
+	/**
+	 * 查询全部
+	 * 
+	 * @param 
+	 * @return
+	 * @throws 
+	 */
+	@RequestMapping("findAll")
+	@ResponseBody
+	public List<VideoCategory> findAll(){
+		List<VideoCategory> listVideoCategories= videoCategoryService.findAll();
+		return listVideoCategories;
+	}
 }

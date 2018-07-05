@@ -59,4 +59,10 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.getProductById(productId);
 	}
 
+	@Override
+	public List<Product> findAll() {
+		// TODO Auto-generated method stub
+		return productDao.findAll();
+	}
+
 }

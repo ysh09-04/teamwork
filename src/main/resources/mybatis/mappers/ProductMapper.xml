@@ -71,4 +71,12 @@
         delete from product
         where productId=#{productId}
     </delete>
+    <!-- 查询全部 -->
+    <select id="findAll" resultType="Product">
+      select productId,productName,productDescription,
+      productPrice,productEffectiveDate,enabled,
+      browseNumber,purchaseTimes,category
+      from product
+    
+    </select>
 </mapper> 

@@ -52,4 +52,11 @@ public interface PaperService {
      * @return
      */
     public int updatePaper(Paper paper);
+    /**
+     * 查询全部
+     *
+     * @param 
+     * @return
+     */
+    public List<Paper> findAll();
 }

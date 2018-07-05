@@ -124,4 +124,17 @@ public class QuestionBankControll {
 		public List<QuestionBank> linkbutton(){
 			return questionBankService.findAllIdAndName();
 		}
+		/**
+		 * 查询全部
+		 * 
+		 * @param 
+		 * @return
+		 * @throws 
+		 */
+		@RequestMapping("findAll")
+		@ResponseBody
+		public List<QuestionBank> findAll(){
+			List<QuestionBank> listQuestionBanks= questionBankService.findAll2();
+			return listQuestionBanks;
+		}
 }

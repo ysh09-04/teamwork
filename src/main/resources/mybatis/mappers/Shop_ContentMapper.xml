@@ -8,7 +8,142 @@
          DELETE FROM shop_content WHERE productId=#{0}
      </delete>
      <!-- 根据contentId查询productId -->
-     <select id="findByContentId"  resultType="product">
-          SELECT productId  FROM shop_content WHERE contentId=#{0} AND type=#{1}
+     <select id="findByContentId" parameterType="int" resultType="Shop_Content">
+          SELECT shop_content FROM shop_content WHERE contentId=#{0} AND type=#{1}
      </select>
+      <!-- 查找商品题库 -->
+     <resultMap type="ProductQuestionBankDto" id="productQuestionBankDtoResultMap">
+        <id column="productId" property="productId" />
+        <id column="type" property="type" />
+        <id column="contentId" property="contentId" />
+        <result column="productName" property="productName" />
+        <result column="productDescription" property="productDescription" />
+        <result column="productEffectiveDate" property="productEffectiveDate" />
+        <result column="enabled" property="enabled" />
+        <result column="productPrice" property="productPrice" />
+        <result column="browseNumber" property="browseNumber" />
+        <result column="purchaseTimes" property="purchaseTimes" />
+        <result column="category" property="category" />
+        <association property="questionBank" javaType="QuestionBank">
+        <id column="questionBankId" property="questionBankId" />
+         <result column="questionBankName" property="questionBankName" />
+         <result column="questionBankDescribe" property="questionBankDescribe" />
+         <result column="visitTimes" property="visitTimes" />
+         <result column="purchaseTimes" property="purchaseTimes" /> 
+         <result column="courseId" property="courseId" />                        
+        </association>
+     </resultMap>
+     
+     <select id="findProductQuestionBank" resultMap="productQuestionBankDtoResultMap">
+        SELECT product.productId,product.productName,product.productDescription,
+        product.productPrice,product.productEffectiveDate,product.enabled,
+        product.browseNumber,product.purchaseTimes,product.category,
+        questionbank.questionBankId,questionbank.questionBankName,
+        questionbank.questionBankDescribe,questionbank.visitTimes,
+        questionbank.purchaseTimes,questionbank.courseId,shop_content.type,
+        shop_content.contentId
+        from product,questionbank,shop_content
+        WHERE shop_content.productId=product.productId AND shop_content.type='题库'
+        AND shop_content.contentId=questionbank.questionBankId
+     </select>
+     
+       <!-- 查找商品试卷 -->
+     <resultMap type="ProductPaperDto" id="productPaperDtoResultMap">
+        <id column="productId" property="productId" />
+        <id column="type" property="type" />
+        <id column="contentId" property="contentId" />
+        <result column="productName" property="productName" />
+        <result column="productDescription" property="productDescription" />
+        <result column="productEffectiveDate" property="productEffectiveDate" />
+        <result column="enabled" property="enabled" />
+        <result column="productPrice" property="productPrice" />
+        <result column="browseNumber" property="browseNumber" />
+        <result column="purchaseTimes" property="purchaseTimes" />
+        <result column="category" property="category" />
+        <association property="paper" javaType="Paper">
+        <id column="paperId" property="paperId" />
+         <result column="paperName" property="paperName" />
+         <result column="paperDescription" property="paperDescription" />
+         <result column="paperType" property="paperType" />
+         <result column="paperTotalScore" property="paperTotalScore" /> 
+         <result column="courseId" property="courseId" />                        
+        </association>
+     </resultMap>
+     
+     <select id="findProductPaper" resultMap="productPaperDtoResultMap">
+        SELECT product.productId,product.productName,product.productDescription,
+        product.productPrice,product.productEffectiveDate,product.enabled,
+        product.browseNumber,product.purchaseTimes,product.category,
+        paper.paperId,paper.paperTotalScore,paper.paperDescription,
+        paper.paperName,paper.paperType,paper.courseId,
+        shop_content.contentId,shop_content.type
+        from product,paper,shop_content
+        WHERE shop_content.productId=product.productId AND shop_content.type='试卷'
+        AND shop_content.contentId=paper.paperId
+     </select>
+     <!-- 查找商品视频类目 -->
+     <resultMap type="ProductVideoCategoryDto" id="ProductVideoCategoryDtoResultMap">
+        <id column="productId" property="productId" />
+        <id column="type" property="type" />
+        <id column="contentId" property="contentId" />
+        <result column="productName" property="productName" />
+        <result column="productDescription" property="productDescription" />
+        <result column="productEffectiveDate" property="productEffectiveDate" />
+        <result column="enabled" property="enabled" />
+        <result column="productPrice" property="productPrice" />
+        <result column="browseNumber" property="browseNumber" />
+        <result column="purchaseTimes" property="purchaseTimes" />
+        <result column="category" property="category" />
+        <association property="videoCategory" javaType="VideoCategory">
+        <id column="videoCategory" property="VideoCategory" />
+         <result column="videoCategoryId" property="videoCategoryId" />
+         <result column="videoCategoryName" property="videoCategoryName" />
+         <result column="videoCategoryDescribe" property="videoCategoryDescribe" />
+         <result column="courseId" property="courseId" /> 
+                               
+        </association>
+     </resultMap>
+     
+     <select id="findProductVideoCategory" resultMap="ProductVideoCategoryDtoResultMap">
+        SELECT product.productId,product.productName,product.productDescription,
+        product.productPrice,product.productEffectiveDate,product.enabled,
+        product.browseNumber,product.purchaseTimes,product.category,
+        videocategory.videoCategoryId,videocategory.videoCategoryName,
+        videocategory.videoCategoryDescribe,videocategory.courseId,
+        shop_content.contentId,shop_content.type
+        FROM product,videocategory,shop_content
+        WHERE shop_content.productId=product.productId AND shop_content.type='视频类目'
+        AND shop_content.contentId=videocategory.videoCategoryId
+
+     </select>
+     <!-- 添加商品 --> 
+      <insert id="add" parameterType="shop_Content">
+        insert into shop_content(productId,type,contentId)
+        values(#{productId},#{type},#{contentId})
+    </insert>
+    
+    
+    <!-- 修改 -->
+      <update id="update" parameterType="Map" >
+        update shop_content
+        <set>
+            <if test="productId!=null and productId!='' ">
+                `productId`=#{productId},
+            </if>
+            <if test="type!=null and type!='' ">
+                `type`=#{type},
+            </if>
+             <if test="contentId!=null and contentId!='' ">
+                `contentId`=#{contentId},
+            </if>
+          
+        </set>
+        where `productId`=#{oldproductId} and `type`=#{oldtype} and `contentId`=#{oldcontentId}
+    </update>
+    
+      <!-- 删除商品内容 -->
+    <delete id="delete2" parameterType="Shop_Content">
+        delete from shop_content
+        where productId=#{productId} and type=#{type} and contentId=#{contentId}
+    </delete>
 </mapper>

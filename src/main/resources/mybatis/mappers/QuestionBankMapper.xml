@@ -76,4 +76,10 @@
     <select id="findAllIdAndName" resultType="QuestionBank">
          SELECT questionBankId,questionBankName FROM questionbank
     </select>
+    <!-- 查询全部 -->
+    <select id="findAll2" resultType="QuestionBank">
+    select questionBankId,questionBankName,questionBankDescribe,
+    visitTimes,purchaseTimes,courseId
+    from questionbank
+    </select>
 </mapper>

@@ -62,4 +62,11 @@
             </if>
          </where>
      </select>
+     <!-- 查询全部 -->
+     <select id="findAll" resultType="VideoCategory">
+     select videoCategoryId,videoCategoryName,
+     videoCategoryDescribe,courseId
+     from videocategory
+     
+     </select>
 </mapper>

@@ -60,6 +60,11 @@ public interface ProductService {
      * @return
      */
     Product getProductById(Integer productId);
-    
+    /**
+     * 查询全部商品表
+     * @param 
+     * @return
+     */
+    public List<Product> findAll(); 
 }
     

@@ -58,4 +58,10 @@ public class PaperServiceImpl implements PaperService {
 		return paperDao.updatePaper(paper);
 	}
 
+	@Override
+	public List<Paper> findAll() {
+		// TODO Auto-generated method stub
+		return paperDao.findAll();
+	}
+
 }

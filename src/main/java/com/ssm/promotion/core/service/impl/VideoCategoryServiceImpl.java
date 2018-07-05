@@ -64,4 +64,10 @@ public class VideoCategoryServiceImpl implements VideoCategoryService {
 		return videoCategoryDao.findByNameOrAllCount(videoCategoryName);
 	}
 
+	@Override
+	public List<VideoCategory> findAll() {
+		// TODO Auto-generated method stub
+		return videoCategoryDao.findAll();
+	}
+
 }

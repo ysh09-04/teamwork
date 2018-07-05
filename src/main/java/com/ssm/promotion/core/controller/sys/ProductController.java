@@ -136,5 +136,17 @@ public class ProductController {
 			return ResultGenerator.genFailResult("FAIL");
 		}
 	}
-	
+	/**
+	 * 查询全部
+	 * 
+	 * @param 
+	 * @return
+	 * @throws 
+	 */
+	@RequestMapping("findAll")
+	@ResponseBody
+	public List<Product> findAll(){
+		List<Product> listpProducts= productService.findAll();
+		return listpProducts;
+	}
 }

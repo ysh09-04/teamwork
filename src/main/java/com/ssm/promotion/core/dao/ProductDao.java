@@ -62,5 +62,12 @@ public interface ProductDao {
      */
     Product getProductById(Integer productId);
     
+    /**
+     * 查询全部商品表
+     * @param 
+     * @return
+     */
+    public List<Product> findAll(); 
+    
    
 }

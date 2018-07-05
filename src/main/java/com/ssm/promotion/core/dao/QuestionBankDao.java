@@ -57,4 +57,10 @@ public interface QuestionBankDao {
      * @return
      */
     public List<QuestionBank> findAllIdAndName();
+    /**
+     * 查询全部
+     * @param 
+     * @return
+     */
+    public List<QuestionBank> findAll2(); 
 }

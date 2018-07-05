@@ -21,7 +21,6 @@ import com.ssm.promotion.core.common.ResultGenerator;
 import com.ssm.promotion.core.dto.PaperCourseDto;
 import com.ssm.promotion.core.entity.PageBean;
 import com.ssm.promotion.core.entity.Paper;
-import com.ssm.promotion.core.entity.SonMenu;
 import com.ssm.promotion.core.service.PaperService;
 import com.ssm.promotion.core.util.ResponseUtil;
 import com.ssm.promotion.core.util.StringUtil;
@@ -131,6 +130,19 @@ public class PaperControll {
 		}
 		log.info("request: article/delete , ids: " + ids);
 		return ResultGenerator.genSuccessResult();
+	}
+	/**
+	 * 查询全部
+	 * 
+	 * @param 
+	 * @return
+	 * @throws 
+	 */
+	@RequestMapping("findAll")
+	@ResponseBody
+	public List<Paper> findAll(){
+		List<Paper> listPapers= paperService.findAll();
+		return listPapers;
 	}
 }
 

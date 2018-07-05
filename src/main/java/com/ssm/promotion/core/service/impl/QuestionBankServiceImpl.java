@@ -78,4 +78,10 @@ public class QuestionBankServiceImpl implements QuestionBankService {
     public List<QuestionBank> findAllIdAndName(){
     	return questionBankDao.findAllIdAndName();
     }
+
+	@Override
+	public List<QuestionBank> findAll2() {
+		// TODO Auto-generated method stub
+		return questionBankDao.findAll2();
+	}
 }
