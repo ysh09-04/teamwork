@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.UserRoleDao">
+     <!-- 用户关联角色 -->
+     <resultMap type="UserRoleDto" id="UserRoleDtoResultMap">
+         <id column="userId" property="userId"/>
+         <id column="roleId" property="roleId"/>
+         <result column="uuid" property="uuid" />
+         <result column="password" property="password" />
+         <result column="userName" property="userName" />
+         <result column="state" property="state" />                 
+         <association property="SRole" javaType="SRole">
+            <result column="roleName" property="roleName" />
+            <result column="roleDescribe" property="roleDescribe" />
+            <result column="enabled" property="enabled" />
+        </association>
+     </resultMap>
+      <!-- 添加 -->
+    <insert id="add" parameterType="UserRole">
+         INSERT INTO user_role(userId,roleId) values (#{userId},#{roleId})
+     </insert>
+    <!-- 修改 -->
+      <update id="update" parameterType="Map" >
+        update user_role
+        <set>
+            <if test="userId!=null and userId!='' ">
+                `userId`=#{userId},
+            </if>
+            <if test="roleId!=null and roleId!='' ">
+                `roleId`=#{roleId},
+            </if>
+        </set>
+        where `userId`=#{olduserId} and `roleId`=#{oldroleId}
+      </update>
+     <!-- 删除 -->
+     <delete id="delete" parameterType="UserRole">
+         DELETE FROM user_role WHERE roleId=#{roleId} AND userId=#{userId}
+     </delete> 
+     <!-- 查询 -->
+     <select id="findAll" parameterType="Map" resultMap="UserRoleDtoResultMap">
+        SELECT 
+        u_r.userId,u_r.roleId,u.uuid,u.userName,u.password,u.state,
+        r.roleName,r.roleDescribe,r.enabled
+        FROM 
+        user_role u_r, s_user u,s_role r
+        WHERE 
+        u_r.roleId=r.roleId and u_r.userId=u.userId
+     
+            <if test="userName!=null and userName!='' ">
+                and s_role.userName like #{userName}
+            </if>
+          
+        
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+      <!-- 计数 -->
+    <select id="getTotalUserRole" parameterType="Map" resultType="Long">
+                select count(*) 
+                from user_role ur,s_role r
+                where r.roleId = ur.roleId
+             <if test="userName!=null and userName!='' ">
+                and r.userName like #{userName}
+            </if>
+        
+    </select>
+   
+    
+</mapper>

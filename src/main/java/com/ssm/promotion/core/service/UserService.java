@@ -65,5 +65,10 @@ public interface UserService {
      * @return
      */
     SUser getSUserById(Integer userId);
+    /**
+     * 查询全部Id
+     */
+    public List<SUser> findAll();
+
 }
     

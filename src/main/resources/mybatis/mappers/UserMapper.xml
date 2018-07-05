@@ -81,5 +81,10 @@
         delete from s_user
         where userId=#{userId}
     </delete>
+     <!-- 查询所有 -->
+    <select id="findAll" resultType="SUser">
+    select userId,uuid,password,userName,state from s_user
+    
+    </select>
    </mapper>
     

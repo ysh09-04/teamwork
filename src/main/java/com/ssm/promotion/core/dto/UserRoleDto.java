@@ -1,27 +1,38 @@
 package com.ssm.promotion.core.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ssm.promotion.core.entity.SRole;
-
+import com.ssm.promotion.core.entity.SUser;
 /**
- * 用户角色
- * @author 尤少辉
- * @日期 2018年7月2日
+ * 
+ * @author 
+ *
  */
 public class UserRoleDto {
-	private Integer userId; // 主键
+	private Integer user_roleId;
+	private Integer userId;
+	private Integer roleId;
 	private String userName; // 用户姓名
-	private String password; // 密码
-	private String uuid;// 唯一id
-	private Integer state;// 状态 
-	private List<SRole> sRoles=new ArrayList<SRole>();
+    private String password; // 密码
+    private String uuid;// 唯一id
+    private Integer state;// 状态
+	private SRole SRole = new SRole();
+	public Integer getUser_roleId() {
+		return user_roleId;
+	}
+	public void setUser_roleId(Integer user_roleId) {
+		this.user_roleId = user_roleId;
+	}
 	public Integer getUserId() {
 		return userId;
 	}
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+	public Integer getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
 	public String getUserName() {
 		return userName;
@@ -47,21 +58,34 @@ public class UserRoleDto {
 	public void setState(Integer state) {
 		this.state = state;
 	}
-	public List<SRole> getsRoles() {
-		return sRoles;
+	public SRole getSRole() {
+		return SRole;
 	}
-	public void setsRoles(List<SRole> sRoles) {
-		this.sRoles = sRoles;
+	public void setSRole(SRole SRole) {
+		this.SRole = SRole;
 	}
-	public UserRoleDto(Integer userId, String userName, String password, String uuid, Integer state,
-			List<SRole> sRoles) {
+	public UserRoleDto(Integer user_roleId, Integer userId, Integer roleId, String userName, String password,
+			String uuid, Integer state, SRole SRole) {
 		super();
+		this.user_roleId = user_roleId;
 		this.userId = userId;
+		this.roleId = roleId;
 		this.userName = userName;
 		this.password = password;
 		this.uuid = uuid;
 		this.state = state;
-		this.sRoles = sRoles;
+		this.SRole = SRole;
+	}
+	public UserRoleDto(Integer userId, Integer roleId, String userName, String password, String uuid, Integer state,
+			SRole SRole) {
+		super();
+		this.userId = userId;
+		this.roleId = roleId;
+		this.userName = userName;
+		this.password = password;
+		this.uuid = uuid;
+		this.state = state;
+		this.SRole = SRole;
 	}
 	public UserRoleDto() {
 		super();

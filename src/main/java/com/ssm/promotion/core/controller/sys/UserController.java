@@ -174,5 +174,10 @@ public class UserController {
 			return ResultGenerator.genFailResult("FAIL");
 		}
 	}
-	
+	@RequestMapping("findAll")
+	@ResponseBody
+	public List<SUser> findAll(){
+		List<SUser> listUser= userService.findAll();
+		return listUser;
+	}
 }
