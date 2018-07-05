@@ -82,7 +82,7 @@ public class FatherMenuControll {
 		map.put("start", pageBean.getStart());
 		map.put("size", pageBean.getPageSize());
 		List<FatherMenu> fatherMenus = fatherMenuService.findByFatherMenuOrAll(map);
-		Long total = (long) fatherMenuService.findByFatherMenuOrAllCount(searchMenu.getMenuName());
+		Long total = (long) fatherMenuService.findByFatherMenuOrAllCount((String)(map.get("menuName")));
 		JSONObject result = new JSONObject();
 		JSONArray jsonArray = JSONArray.fromObject(fatherMenus);
 		result.put("rows", jsonArray);

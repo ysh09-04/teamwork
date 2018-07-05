@@ -19,9 +19,7 @@ import com.ssm.promotion.core.common.ResultGenerator;
 import com.ssm.promotion.core.dto.QuestionbankCourseDto;
 import com.ssm.promotion.core.entity.PageBean;
 import com.ssm.promotion.core.entity.QuestionBank;
-import com.ssm.promotion.core.entity.SRole;
 import com.ssm.promotion.core.service.QuestionBankService;
-import com.ssm.promotion.core.service.RoleService;
 import com.ssm.promotion.core.util.ResponseUtil;
 import com.ssm.promotion.core.util.StringUtil;
 
@@ -109,7 +107,21 @@ public class QuestionBankControll {
 		@ResponseBody
 		public Result delete(int questionBankId)
 				throws Exception {		
-			questionBankService.delete(questionBankId);			
-			return ResultGenerator.genSuccessResult();
+			
+			int resultTotal=questionBankService.delete(questionBankId);	
+			if (resultTotal > 0) {
+				return ResultGenerator.genSuccessResult();
+			} else {
+				return ResultGenerator.genFailResult("FAIL");
+			}
+		}
+		/**
+		 * 用于ajax加载数据
+		 * @return
+		 */
+		@RequestMapping("linkbutton")
+		@ResponseBody
+		public List<QuestionBank> linkbutton(){
+			return questionBankService.findAllIdAndName();
 		}
 }

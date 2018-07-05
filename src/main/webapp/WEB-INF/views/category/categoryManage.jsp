@@ -68,6 +68,18 @@
 
     function openUserAddDialog() {
         $("#dlg").dialog("open").dialog("setTitle", "添加用户信息");
+        $.ajax({
+            type:'post',
+            url:'category/linkbutton',
+            dataType : "json", 
+            success:function(result){
+                $('#fatherId').combobox({
+                      data : result,
+                      valueField:'categoryId',
+                      textField:'categoryName'
+                     });
+            },
+        });
         method = "POST";
     }
 
@@ -76,7 +88,6 @@
         var categoryName = $("#categoryName").val();
         var categoryDescribe = $("#categoryDescribe").val();
         var categoryLevel = $("#categoryLevel").val();
-        alert($("#fatherId").combobox('getValue'));
         var fatherId= $("#fatherId").combobox('getValue');
         var data = {
             "categoryId" : categoryId,
@@ -117,6 +128,24 @@
             $.messager.alert("系统提示", "请选择一条要编辑的数据！");
             return;
         }
+        $.ajax({
+            type:'post',
+            url:'category/linkbutton',
+            dataType : "json", 
+            success:function(result){
+                $('#fatherId').combobox({
+                      data : result,
+                      valueField:'categoryId',
+                      textField:'categoryName'
+                     });
+                     for(var i=0;i<result.length;i++){
+                        if(row.fatherId==result[i].fatherId){
+                           $("#fatherId").combobox('select',row.fatherId);
+                           break;
+                        }
+                     }
+            },
+        });
         var row = selectedRows[0];
         $("#dlg").dialog("open").dialog("setTitle", "编辑用户信息");
         $('#fm').form('load', row);
@@ -124,7 +153,7 @@
         $("#categoryId").val(row.categoryId);
         $("#categoryDescribe").val(row.categoryDescribe);
         $("#categoryLevel").val(row.categoryLevel);
-        $("#fatherId").combobox('select',row.fatherId);
+        
         method = "PUT";
     }
 

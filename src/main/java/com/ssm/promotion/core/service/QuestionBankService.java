@@ -45,4 +45,9 @@ public interface QuestionBankService {
 	 * @return
 	 */
 	public int delete(int questionBankId);
+	/**
+     * 查询全部课程ID和name
+     * @return
+     */
+    public List<QuestionBank> findAllIdAndName();
 }

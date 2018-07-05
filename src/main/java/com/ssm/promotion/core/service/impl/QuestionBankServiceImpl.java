@@ -14,6 +14,7 @@ import com.ssm.promotion.core.dao.QuestionDao;
 import com.ssm.promotion.core.dao.Shop_ContentDao;
 import com.ssm.promotion.core.dto.QuestionbankCourseDto;
 import com.ssm.promotion.core.entity.QuestionBank;
+import com.ssm.promotion.core.entity.Shop_Content;
 import com.ssm.promotion.core.service.QuestionBankService;
 /**
  * @author 刘家霖
@@ -22,16 +23,16 @@ import com.ssm.promotion.core.service.QuestionBankService;
  */
 @Service("questionBankService")
 public class QuestionBankServiceImpl implements QuestionBankService {
-	  @Resource
-	  private QuestionBankDao questionBankDao ;
-	  @Resource
-	  private Shop_ContentDao shop_ContentDao;
-	  @Resource
-	  private QuestionDao questionDao ;
-	  
-	  @Autowired
+	@Resource
+	private QuestionBankDao questionBankDao ;
+	@Resource
+	private Shop_ContentDao shop_ContentDao;
+	@Resource
+	private QuestionDao questionDao ;
+
+	@Autowired
 	private ProductDao productDao;
-	  
+
 	@Override
 	public List<QuestionbankCourseDto> findAll(Map<String, Object> map) {
 		// TODO Auto-generated method stub
@@ -61,11 +62,20 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 		//先删除题目表
 		questionDao.delete(questionBankId);
 		//再删除商品表
-		int productId= shop_ContentDao.findByContentId(questionBankId);
-		shop_ContentDao.delete(productId);
-		productDao.deleteProduct(productId);
-		
+		Shop_Content shop_Content= shop_ContentDao.findByContentId(questionBankId,"题库");
+		if(null!=shop_Content){
+			int productId=shop_Content.getProductId();
+				shop_ContentDao.delete(productId);
+				productDao.deleteProduct(productId);
+		}
+
 		return questionBankDao.delete(questionBankId);
 	}
-
+	/**
+     * 查询全部课程ID和name
+     * @return
+     */
+    public List<QuestionBank> findAllIdAndName(){
+    	return questionBankDao.findAllIdAndName();
+    }
 }

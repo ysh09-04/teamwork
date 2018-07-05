@@ -3,8 +3,7 @@ $(function() {
 	$('#dg').datagrid({
 		url : 'course/datagrid',
 		title : '菜单管理',
-		// width : '100%',
-		fitColumns : true,
+		width : '100%',
 		loadMsg : '数据加载中,请稍后...',
 		rownumbers : true,
 		singleSelect : true,
@@ -12,27 +11,33 @@ $(function() {
 		columns : [ [ {
 			field : 'courseId',
 			title : '编号',
-			checkbox : true
+			width : 100,
+			align: 'center'
 		}, {
 			field : 'courseName',
 			title : '课程名',
-			width : 100
+			width : 200,
+			align: 'center'
 		}, {
 			field : 'courseDescribe',
 			title : '描述',
-			width : 100
+			width : 300,
+			align: 'center'
 		},  {
 			field : 'enabledCourse',
 			title : '是否启用课程',
-			width : 100,
+			width : 150,
+			align: 'center'
 		}, {
 			field : 'enabledPaper',
 			title : '是否启用考试',
-			width : 100,
+			width : 150,
+			align: 'center'
 		}, {
 			field : 'category.categoryName',
 			title : '类目',
-			width : 100,
+			width : 200,
+			align: 'center'
 		} 
 		 ] ],
 		pagination : true,

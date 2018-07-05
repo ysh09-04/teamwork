@@ -51,4 +51,10 @@ public interface QuestionBankDao {
      * @return
      */
     public int update(QuestionBank questionBank);
+    
+    /**
+     * 查询全部课程ID和name
+     * @return
+     */
+    public List<QuestionBank> findAllIdAndName();
 }

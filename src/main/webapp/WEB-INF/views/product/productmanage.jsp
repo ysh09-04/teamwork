@@ -26,10 +26,6 @@
 		var strIds = [];
 		for ( var i = 0; i < selectedRows.length; i++) {
 			var productId = selectedRows[i].productId;
-			if (productId == 1) {
-				$.messager.alert("系统提示", "操作失败!");
-				return;
-			}
 			strIds.push(productId);
 		}
 		var ids = strIds.join(",");
@@ -62,7 +58,7 @@
 	}
 
 	function openProductAddDialog() {
-		$("#dlg").dialog("open").dialog("setTitle", "添加教师信息");
+		$("#dlg").dialog("open").dialog("setTitle", "添加产品信息");
 		method = "POST";
 	}
 
@@ -120,11 +116,7 @@
 			return;
 		}
 		var row = selectedRows[0];
-		if (row.productId == 1) {
-			$.messager.alert("系统提示", "操作失败！");
-			return;
-		}
-		$("#dlg").dialog("open").dialog("setTitle", "编辑商品信息");
+		$("#dlg").dialog("open").dialog("setTitle", "编辑产品信息");
 		$('#fm').form('load', row);
 		$("#productId").val(row.productId);
 		$("#productName").val(row.productName);

@@ -8,7 +8,7 @@
          DELETE FROM shop_content WHERE productId=#{0}
      </delete>
      <!-- 根据contentId查询productId -->
-     <select id="findByContentId" parameterType="int" resultType="int">
-          SELECT productId FROM shop_content WHERE contentId=#{0}
+     <select id="findByContentId"  resultType="product">
+          SELECT productId  FROM shop_content WHERE contentId=#{0} AND type=#{1}
      </select>
 </mapper>

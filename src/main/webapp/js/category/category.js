@@ -3,8 +3,7 @@ $(function() {
 	$('#dg').datagrid({
 		url : 'category/datagrid',
 		title : '菜单管理',
-		// width : '100%',
-		fitColumns : true,
+		width : '100%',
 		loadMsg : '数据加载中,请稍后...',
 		rownumbers : true,
 		singleSelect : true,
@@ -12,23 +11,28 @@ $(function() {
 		columns : [ [ {
 			field : 'categoryId',
 			title : '编号',
-			checkbox : true
+			width : 150,
+			align: 'center'
 		}, {
 			field : 'categoryName',
 			title : '类目名',
-			width : 100
+			width : 200,
+			align: 'center'
 		}, {
 			field : 'categoryDescribe',
 			title : '描述',
-			width : 100
+			width : 300,
+			align: 'center'
 		},  {
 			field : 'categoryLevel',
 			title : '等级',
-			width : 100,
+			width : 150,
+			align: 'center'
 		}, {
 			field : 'fatherId',
 			title : '上一级目录',
-			width : 100,
+			width : 150,
+			align: 'center'
 		} 
 		 ] ],
 		pagination : true,
@@ -36,16 +40,4 @@ $(function() {
 		pageList : [ 10, 20, 35, 50 ],
 		toolbar : '#tb'
 	});
-		$.ajax({
-			type:'post',
-			url:'category/linkbutton',
-			dataType : "json", 
-			success:function(result){
-				$('#fatherId').combobox({
-				      data : result,
-				      valueField:'categoryId',
-				      textField:'categoryName'
-				     });
-			},
-		});
 });

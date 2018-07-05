@@ -13,7 +13,7 @@
 	
 	function searchSUser() {
 		$("#dg").datagrid('load', {
-			"tname" : $("#name").val()
+			"userName" : $("#name").val()
 		});
 	}
 

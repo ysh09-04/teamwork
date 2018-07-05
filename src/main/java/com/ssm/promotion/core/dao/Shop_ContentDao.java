@@ -1,5 +1,7 @@
 package com.ssm.promotion.core.dao;
 
+import com.ssm.promotion.core.entity.Shop_Content;
+
 /**
  * 商品内容
  * @author 尤少辉
@@ -17,5 +19,5 @@ public interface Shop_ContentDao {
 	 * @param contentId
 	 * @return
 	 */
-	public int findByContentId(int contentId);
+	public Shop_Content findByContentId(int contentId,String type);
 }

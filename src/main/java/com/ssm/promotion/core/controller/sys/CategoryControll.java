@@ -80,7 +80,7 @@ public class CategoryControll {
 		map.put("start", pageBean.getStart());
 		map.put("size", pageBean.getPageSize());
 		List<Category> categories= categoryService.findByNameOrAll(map);
-		Long total = (long) categoryService.findByNameOrAllcount(searchMenu.getCategoryName());
+		Long total = (long) categoryService.findByNameOrAllcount((String)(map.get("categoryName")));
 		JSONObject result = new JSONObject();
 		JSONArray jsonArray = JSONArray.fromObject(categories);
 		result.put("rows", jsonArray);

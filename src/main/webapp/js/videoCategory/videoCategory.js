@@ -3,8 +3,7 @@ $(function() {
 	$('#dg').datagrid({
 		url : 'videoCategory/datagrid',
 		title : '菜单管理',
-		// width : '100%',
-		fitColumns : true,
+		width : '100%',
 		loadMsg : '数据加载中,请稍后...',
 		rownumbers : true,
 		singleSelect : true,
@@ -12,23 +11,27 @@ $(function() {
 		columns : [ [ {
 			field : 'videoCategoryId',
 			title : '编号',
-			checkbox : true
+			width : 150,
+			align: 'center'
 		}, {
 			field : 'videoCategoryName',
 			title : '视频类名',
-			width : 100
+			width : 250,
+			align: 'center'
 		}, {
 			field : 'videoCategoryDescribe',
 			title : '描述',
-			width : 100
+			width : 350,
+			align: 'center'
 		}, {
 			field : 'course.courseName',
 			title : '课程名',
-			width : 100,
+			width : 250,
+			align: 'center'
 		} 
 		 ] ],
 		pagination : true,
-		pageSize : 20,
+		pageSize : 10,
 		pageList : [ 10, 20, 35, 50 ],
 		toolbar : '#tb'
 	});

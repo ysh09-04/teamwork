@@ -4,7 +4,7 @@ $(function() {
 					{
 						url : 'paper/datagrid',
 						title : '用户管理',
-						fitColumns : true,
+						width : '100%',
 						loadMsg : '数据加载中,请稍后...',
 						rownumbers : true,
 						singleSelect : true,
@@ -13,35 +13,38 @@ $(function() {
 								{
 									field : 'paperId',
 									title : '编号',
-									checkbox : true
+									width : 100,
+									align: 'center'
 								},
 								{
 									field : 'paperTotalScore',
 									title : '总分',
-									width : 50
+									width : 100,
+									align: 'center'
 								},
 								{
 									field : 'paperDescription',
 									title : '描述',
-									width : 100
+									width : 300,
+									align: 'center'
 								},
 								{
 									field : 'paperName',
 									title : '考卷名',
-									width : 50,
+									width : 200,
+									align: 'center'
 								},
 								{
 									field : "paperType",
 									title : "考卷类型",
-									width : 100,
+									width : 200,
+									align: 'center'
 								}, 
 								{
-									field : 'courseName',
+									field : 'course.courseName',
 									title : '课程名',
-									width : 100,
-									formatter : function(value, row, index) {
-										return row.course.courseName;
-									}
+									width : 200,
+									align: 'center'
 								}
 								 
 								] ],
@@ -55,7 +58,7 @@ $(function() {
 		url:'course/linkbutton',
 		dataType : "json", 
 		success:function(result){
-			$('#categoryId').combobox({
+			$('#courseId').combobox({
 			      data : result,
 			      valueField:'courseId',
 			      textField:'courseName',

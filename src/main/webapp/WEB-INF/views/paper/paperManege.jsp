@@ -32,10 +32,6 @@
         var strIds = [];
         for ( var i = 0; i < selectedRows.length; i++) {
             var paperId = selectedRows[i].paperId;
-            if (paperId == 1) {
-                $.messager.alert("系统提示", "操作失败!");
-                return;
-            }
             strIds.push(paperId);
         }
         var ids = strIds.join(",");
@@ -78,7 +74,7 @@
         var paperDescription = $("#paperDescription").val();
         var paperName = $("#paperName").val();
         var paperType = $("#paperType").val();
-        var courseId = $("#courseId").val();
+        var courseId = $("#courseId").combobox('getValue');
         
         var data = {
             "paperId" : paperId,
@@ -128,7 +124,7 @@
         $("#paperDescription").val(row.paperDescription);
         $("#paperName").val(row.paperName);
         $("#paperType").val(row.paperType);
-        $("#courseId").val(row.courseId);
+        $("#courseId").combobox('select',row.course.courseId);
        
         method = "PUT";
     }

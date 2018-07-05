@@ -72,7 +72,7 @@ private static final Logger log = Logger.getLogger(UserController.class);// æ—¥å
 		map.put("start", pageBean.getStart());
 		map.put("size", pageBean.getPageSize());
 		List<VideoCategory> videoCategories= videoCategoryService.findByNameOrAllPage(map);
-		Long total = (long) videoCategoryService.findByNameOrAllCount(videoCategory.getVideoCategoryName());
+		Long total = (long) videoCategoryService.findByNameOrAllCount((String)(map.get("videoCategoryName")));
 		JSONObject result = new JSONObject();
 		JSONArray jsonArray = JSONArray.fromObject(videoCategories);
 		result.put("rows", jsonArray);

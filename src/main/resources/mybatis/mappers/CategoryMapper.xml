@@ -27,10 +27,12 @@
 	<!-- 查询全部和模糊查询 -->
 	<select id="findByNameOrAll" parameterType="Map" resultType="category">
 		SELECT categoryId,categoryName,categoryDescribe,categoryLevel,fatherId
-        FROM  category
-		<if test="categoryName!=null and categoryName != ''">
-			AND categoryName LIKE #{categoryName}
-		</if>
+		FROM category
+		<where>
+			<if test="categoryName!=null and categoryName != ''">
+				AND categoryName LIKE #{categoryName}
+			</if>
+		</where>
 		<if test="pageSize !=null and start !=null">
 			limit #{start},#{pageSize}
 		</if>

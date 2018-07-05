@@ -18,6 +18,7 @@ import com.ssm.promotion.core.dao.Shop_ContentDao;
 import com.ssm.promotion.core.dao.VideoCategoryDao;
 import com.ssm.promotion.core.dao.VideoDao;
 import com.ssm.promotion.core.entity.Category;
+import com.ssm.promotion.core.entity.Shop_Content;
 import com.ssm.promotion.core.service.CategoryService;
 
 /**
@@ -54,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private Shop_ContentDao shop_ContentDao;
-	
+
 	@Autowired
 	private ProductDao productDao;
 	/**
@@ -102,7 +103,7 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Integer> categoryIds=new ArrayList<Integer>();//获取要删除的类目
 		categoryIds.add(categoryId);
 		//获取该类目的子类目
-		for(int i=categoryLevel;i>1;i--){
+		if(categoryLevel==1){
 			categoryIds.addAll(categoryDao.findByFatherId(categoryId));
 		}
 		//判断是否为空，不为空获取类目下的课程，视频类，题库，考卷，视频，题目，考卷题目
@@ -139,9 +140,12 @@ public class CategoryServiceImpl implements CategoryService {
 					}
 					//删除视频类
 					for (Integer integer : videoCategoryIds) {
-						int productId= shop_ContentDao.findByContentId(integer);
-						shop_ContentDao.delete(productId);
-						productDao.deleteProduct(productId);
+						Shop_Content shop_Content= shop_ContentDao.findByContentId(integer,"视频类目");
+						if(null!=shop_Content){
+							int productId=shop_Content.getProductId();
+							shop_ContentDao.delete(productId);
+							productDao.deleteProduct(productId);
+						}
 						videoCategoryDao.delete(integer);
 					}
 				}
@@ -160,9 +164,12 @@ public class CategoryServiceImpl implements CategoryService {
 					}
 					//删除题库
 					for (Integer integer : questionBankIds) {
-						int productId= shop_ContentDao.findByContentId(integer);
-						shop_ContentDao.delete(productId);
-						productDao.deleteProduct(productId);
+						Shop_Content shop_Content= shop_ContentDao.findByContentId(integer,"题库");
+						if(null!=shop_Content){
+							int productId=shop_Content.getProductId();
+							shop_ContentDao.delete(productId);
+							productDao.deleteProduct(productId);
+						}
 						questionBankDao.delete(integer);
 					}
 				}
@@ -181,9 +188,12 @@ public class CategoryServiceImpl implements CategoryService {
 					}
 					//删除考卷
 					for (Integer integer : paperIds) {
-						int productId= shop_ContentDao.findByContentId(integer);
-						shop_ContentDao.delete(productId);
-						productDao.deleteProduct(productId);
+						Shop_Content shop_Content= shop_ContentDao.findByContentId(integer,"试卷");
+						if(null!=shop_Content){
+							int productId=shop_Content.getProductId();
+							shop_ContentDao.delete(productId);
+							productDao.deleteProduct(productId);
+						}
 						paperDao.delete(integer);
 					}
 				}

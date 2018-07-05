@@ -4,7 +4,6 @@ $(function() {
 					{
 						url : 'users/datagrid',
 						title : '用户管理',
-						fitColumns : true,
 						loadMsg : '数据加载中,请稍后...',
 						rownumbers : true,
 						singleSelect : true,
@@ -13,22 +12,25 @@ $(function() {
 								{
 									field : 'userId',
 									title : '编号',
-									checkbox : true
+									width : 200,
+									align: 'center'
 								},
 								{
 									field : 'userName',
 									title : '用户名',
-									width : 100
+									width : 300,
+									align: 'center'
 								},
 								{
 									field : 'password',
 									title : '密码',
-									width : 100
+									width : 600,
 								},
 								{
 									field : 'state',
 									title : '用户状态',
-									width : 80,
+									width : 200,
+									align: 'center',
 									sortable : true,
 									rownumbers : true,
 									formatter : function(value, row, index) {

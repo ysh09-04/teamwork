@@ -7,8 +7,7 @@ $(function() {
 	$('#dg').datagrid({
 		url : 'role/datagrid',
 		title : '角色管理',
-		// width : '100%',
-		fitColumns : true,
+		width : '100%',
 		loadMsg : '数据加载中,请稍后...',
 		rownumbers : true,
 		singleSelect : true,
@@ -16,20 +15,24 @@ $(function() {
 		columns : [ [ {
 			field : 'roleId',
 			title : '编号',
-			checkbox : true
+			width : 100,
+			align: 'center'
 		},{
 			field : 'roleName',
 			title : '权限名称',
-			width : 60
+			width : 200,
+			align: 'center'
 		},
 		{
 			field: 'roleDescribe',
 			title: '描述',
-			width : 60
+			width : 300,
+			align: 'center'
 		},{
 			field: 'enabled',
 			title: '是否启用',
-			width : 60
+			width: 200,
+			align: 'center'
 		}
 		 ] ],
 		pagination : true,

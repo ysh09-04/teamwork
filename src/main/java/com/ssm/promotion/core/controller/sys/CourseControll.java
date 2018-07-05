@@ -76,7 +76,7 @@ public class CourseControll {
 		map.put("start", pageBean.getStart());
 		map.put("pageSize", pageBean.getPageSize());
 		List<CourseCategoryDto> courses = courseService.findByCourseNameOrAllPage(map);
-		Long total = (long) courseService.findByCourseNameOrAllCount(courseName.getCourseName());
+		Long total = (long) courseService.findByCourseNameOrAllCount((String)(map.get("courseName")));
 		JSONObject result = new JSONObject();
 		JSONArray jsonArray = JSONArray.fromObject(courses);
 		result.put("rows", jsonArray);

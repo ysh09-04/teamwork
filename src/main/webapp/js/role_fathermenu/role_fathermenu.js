@@ -7,8 +7,7 @@ $(function() {
 	$('#dg').datagrid({
 		url : 'Role_Fathermenu/datagrid',
 		title : '角色父菜单管理',
-		// width : '100%',
-		fitColumns : true,
+		width : '100%',
 		loadMsg : '数据加载中,请稍后...',
 		rownumbers : true,
 		singleSelect : true,
@@ -16,33 +15,40 @@ $(function() {
 		columns : [ [ {
 			field : 'role_fatherMenuId',
 			title : '编号',
-			checkbox : true
+			width : 100,
+			align: 'center'
 		},{
 			field : 'roleId',
 			title : '角色Id',
-			width : 60
+			width : 100,
+			align: 'center'
 		},
 		{
 			field : 'roleName',
 			title : '角色名',
-			width : 60
+			width : 200,
+			align: 'center'
 		},
 		{
 			field: 'roleDescribe',
 			title: '角色描述',
-			width : 60
+			width : 300,
+			align: 'center'
 		},{
 			field: 'enabled',
 			title: '是否启用',
-			width : 60,
+			width : 100,
+			align: 'center'
 		},{
 			field: 'fatherMenuId',
 			title: '父菜单ID',
-			width : 60,
+			width : 100,
+			align: 'center'
 		},{
 			field: 'fatherMenus.menuName',
 			title: '父菜单名',
-			width : 60,
+			width : 200,
+			align: 'center'
 		}
 		
 		 ] ],

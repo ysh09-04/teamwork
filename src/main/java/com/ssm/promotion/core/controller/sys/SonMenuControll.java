@@ -72,7 +72,7 @@ public class SonMenuControll {
 		map.put("start", pageBean.getStart());
 		map.put("pageSize", pageBean.getPageSize());
 		List<SonMenu> sonMenus = sonMenuService.findByMenuNameOrAll(map);
-		Long total = (long) sonMenuService.findAllCount(searchMenu.getMenuName());
+		Long total = (long) sonMenuService.findAllCount((String)(map.get("menuName")));
 		JSONObject result = new JSONObject();
 		JSONArray jsonArray = JSONArray.fromObject(sonMenus);
 		result.put("rows", jsonArray);

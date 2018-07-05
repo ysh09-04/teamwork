@@ -31,7 +31,7 @@
 		FROM fathermenu f,sonmenu s 
 		WHERE f.fatherMenuId=s.fatherMenuId 
 		<if test="menuName!=null and menuName != ''">
-			 AND menuName LIKE #{menuName}
+			 AND s.menuName LIKE #{menuName}
 		</if>
 		<if test="pageSize !=null and start !=null">
 			 limit #{start},#{pageSize}

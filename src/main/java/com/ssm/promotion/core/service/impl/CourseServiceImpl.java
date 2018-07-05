@@ -18,6 +18,7 @@ import com.ssm.promotion.core.dao.VideoCategoryDao;
 import com.ssm.promotion.core.dao.VideoDao;
 import com.ssm.promotion.core.dto.CourseCategoryDto;
 import com.ssm.promotion.core.entity.Course;
+import com.ssm.promotion.core.entity.Shop_Content;
 import com.ssm.promotion.core.service.CourseService;
 
 /**
@@ -89,9 +90,12 @@ public class CourseServiceImpl implements CourseService {
 			}
 			//删除视频类
 			for (Integer integer : videoCategoryIds) {
-				int productId= shop_ContentDao.findByContentId(integer);
-				shop_ContentDao.delete(productId);
-				productDao.deleteProduct(productId);
+				Shop_Content shop_Content= shop_ContentDao.findByContentId(integer,"视频类目");
+				if(null!=shop_Content){
+					int productId=shop_Content.getProductId();
+					shop_ContentDao.delete(productId);
+					productDao.deleteProduct(productId);
+				}
 				videoCategoryDao.delete(integer);
 			}
 		}
@@ -110,9 +114,12 @@ public class CourseServiceImpl implements CourseService {
 			}
 			//删除题库
 			for (Integer integer : questionBankIds) {
-				int productId= shop_ContentDao.findByContentId(integer);
-				shop_ContentDao.delete(productId);
-				productDao.deleteProduct(productId);
+				Shop_Content shop_Content= shop_ContentDao.findByContentId(integer,"题库");
+				if(null!=shop_Content){
+					int productId=shop_Content.getProductId();
+					shop_ContentDao.delete(productId);
+					productDao.deleteProduct(productId);
+				}
 				questionBankDao.delete(integer);
 			}
 		}
@@ -131,9 +138,12 @@ public class CourseServiceImpl implements CourseService {
 			}
 			//删除考卷
 			for (Integer integer : paperIds) {
-				int productId= shop_ContentDao.findByContentId(integer);
-				shop_ContentDao.delete(productId);
-				productDao.deleteProduct(productId);
+				Shop_Content shop_Content= shop_ContentDao.findByContentId(integer,"试卷");
+				if(null!=shop_Content){
+					int productId=shop_Content.getProductId();
+					shop_ContentDao.delete(productId);
+					productDao.deleteProduct(productId);
+				}
 				paperDao.delete(integer);
 			}
 		}

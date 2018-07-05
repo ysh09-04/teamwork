@@ -7,8 +7,7 @@ $(function() {
 	$('#dg').datagrid({
 		url : 'questionBank/datagrid',
 		title : '题库管理',
-		// width : '100%',
-		fitColumns : true,
+		width : '100%',
 		loadMsg : '数据加载中,请稍后...',
 		rownumbers : true,
 		singleSelect : true,
@@ -16,28 +15,28 @@ $(function() {
 		columns : [ [ {
 			field : 'questionBankId',
 			title : '编号',
-			checkbox : true
+			width : 100,
 		},{
 			field : 'questionBankName',
 			title : '题库名',
-			width : 60
+			width :  150
 		},
 		{
 			field: 'questionBankDescribe',
 			title: '题库描述',
-			width : 60
+			width : 250
 		},{
 			field: 'visitTimes',
 			title: '浏览次数',
-			width : 60
+			width : 100
 		},{
 			field: 'purchaseTimes',
 			title: '购买次数',
-			width : 60
+			width : 100
 		},	{
 			field: 'course.courseName',
 			title: '课程名',
-			width : 60
+			width : 200
 		}
 		 ] ],
 		pagination : true,

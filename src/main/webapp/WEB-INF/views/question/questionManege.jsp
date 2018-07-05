@@ -84,7 +84,7 @@
         var titleAccuracy = $("#titleAccuracy").val();
         var questionSelectionToal = $("#questionSelectionToal").val();
         var questionValue = $("#questionValue").val();
-        var questionBankId = $("#questionBankId").val();
+        var questionBankId = $("#questionBankId").combobox('getValue');
         
         var data = {
             "questionId" : questionId,
@@ -146,7 +146,7 @@
         $("#titleAccuracy").val(row.titleAccuracy);
         $("#questionSelectionToal").val(row.questionSelectionToal);
         $("#questionValue").val(row.questionValue);
-        $("#questionBankId").val(row.questionBankId);
+        $("#questionBankId").combobox('select',row.question.questionBankId);
        
         method = "PUT";
     }
@@ -162,8 +162,7 @@
         $("#titleAccuracy").val("");
         $("#questionSelectionToal").val("");
         $("#questionValue").val("");
-        $("#questionBankId").val("");
-        
+        $("#questionBankId").combobox('setValue',"--请选择--");
     }
 
     function closeQuestionDialog() {
@@ -272,11 +271,12 @@
 				</tr>
 				
 				<tr>
-					<td>题库ID：</td>
-					<td><input type="text" id="questionBankId" name="questionBankId"
-						class="easyui-validatebox" required="true" />&nbsp;<font
-						color="red">*</font> 
-					</td>
+					<td>题库名字：</td>
+					<td>
+                        <select class='easyui-combobox' id="questionBankId" name='questionBankId'  >
+                            <option>--请选择--</option>                      
+                        </select>
+                    </td>
 				</tr>
 				
 				
