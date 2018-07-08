@@ -11,4 +11,71 @@
      <delete id="delete" parameterType="int">
          DELETE FROM paperquestion WHERE paperQuestionId=#{0}
      </delete>
+     <!-- 查找所有和搜索-->
+<resultMap type="PaperQuestionDto" id="paperQuestionDtoResultMap">
+        <id column="paperQuestionId" property="paperQuestionId" />
+        <id column="paperId" property="paperId" />
+        <result column="paperName" property="paperName" />
+        <result column="paperDescription" property="paperDescription" />
+        <result column="paperType" property="paperType" />
+        <result column="paperTotalScore" property="paperTotalScore" />
+        <result column="courseId" property="courseId" />
+        <association property="question" javaType="Question">
+            <id column="questionId" property="questionId" />
+            <result column="questionContent" property="questionContent" />
+            <result column="chooseContent" property="chooseContent" />
+            <result column="answer" property="answer" />
+        </association>
+</resultMap>
+ <select id="findAll" parameterType="Map" resultMap="paperQuestionDtoResultMap">
+      SELECT paperquestion.paperQuestionId,paper.courseId,paper.paperDescription,
+      paper.paperId,paper.paperName,paper.paperTotalScore,paper.paperType,
+      question.questionId,question.questionContent,question.chooseContent,
+      question.answer
+      FROM question,paper,paperquestion
+      WHERE paperquestion.paperId=paper.paperId and 
+      paperquestion.questionId=question.questionId
+      
+            <if test="paperId!=null and paperId!='' ">
+                and  paper.paperId like #{paperId}
+            </if>
+          
+        
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+      <!-- 计数 -->
+    <select id="getTotal" parameterType="Map" resultType="Long">
+                select count(*) 
+                from paperquestion
+              
+               <if test="paperId!=null and paperId!='' ">
+                and paperId like #{paperId}
+            </if>
+        
+    </select>
+    <!-- 添加 -->
+    <insert id="add" parameterType="PaperQuestion">
+        insert into paperquestion(paperId,questionId)
+        values(#{paperId},#{questionId})
+    </insert>
+     <!-- 修改 -->
+     <update id="update" parameterType="PaperQuestion" >
+        update paperquestion
+        <set>
+            <if test="paperId!=null and paperId!='' ">
+                `paperId`=#{paperId},
+            </if>
+            <if test="questionId!=null and questionId!='' ">
+                `questionId`=#{questionId},
+            </if>
+          
+        </set>
+                where `paperQuestionId`=#{paperQuestionId}
+    </update>
+     <!-- 删除 -->
+     <delete id="delete2" parameterType="PaperQuestion">
+         DELETE FROM paperquestion WHERE paperQuestionId=#{paperQuestionId}
+     </delete>
 </mapper>

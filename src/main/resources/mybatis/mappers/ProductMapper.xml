@@ -67,7 +67,7 @@
         where `productId`=#{productId}
     </update>
 
-    <delete id="deleteProduct" parameterType="Integer">
+    <delete id="deleteProduct" parameterType="int">
         delete from product
         where productId=#{productId}
     </delete>

@@ -16,6 +16,7 @@ public class UserCourse {
 	private String isUserQuestionBank;
 	private String courseState;
 	private int tUserId;
+	private int countId;
 	public int getUserCourseId() {
 		return userCourseId;
 	}
@@ -76,9 +77,15 @@ public class UserCourse {
 	public void settUserId(int tUserId) {
 		this.tUserId = tUserId;
 	}
+	public int getCountId() {
+		return countId;
+	}
+	public void setCountId(int countId) {
+		this.countId = countId;
+	}
 	public UserCourse(int userCourseId, String acquisitionMode, String isUserCourse, String courseExpiryTime,
 			int lastSystemOperatorId, String obtainingVoucher, String isUserPaper, String isUserQuestionBank,
-			String courseState, int tUserId) {
+			String courseState, int tUserId, int countId) {
 		super();
 		this.userCourseId = userCourseId;
 		this.acquisitionMode = acquisitionMode;
@@ -90,6 +97,7 @@ public class UserCourse {
 		this.isUserQuestionBank = isUserQuestionBank;
 		this.courseState = courseState;
 		this.tUserId = tUserId;
+		this.countId = countId;
 	}
 	public UserCourse() {
 		super();

@@ -23,7 +23,7 @@ public interface QuestionBankDao {
 	 * @param courseId
 	 * @return
 	 */
-	public int delete(int questionBankId);
+	public int delete(Integer questionBankId);
 	/**
      * 查找题库
      *

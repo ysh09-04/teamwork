@@ -32,7 +32,16 @@ $(function() {
 									field : 'chooseContent',
 									title : '选择内容',
 									width : 100,
-									align: 'center'
+									align: 'center',
+									 formatter: function(value,row,index){
+										   var strs= new Array(); 
+							               strs= value.split(",");
+							               var xianshi='';
+							               for(var i=0;i<strs.length;i++){
+							            	   xianshi+=strs[i]+'<br>';
+							               }
+							               return xianshi;
+							            }
 								},
 								{
 									field : "answer",
@@ -97,6 +106,18 @@ $(function() {
 		dataType : "json", 
 		success:function(result){
 			$('#questionBankId').combobox({
+			      data : result,
+			      valueField:'questionBankId',
+			      textField:'questionBankName',
+			     });
+		},
+	});
+	$.ajax({
+		type:'post',
+		url:'questionBank/linkbutton',
+		dataType : "json", 
+		success:function(result){
+			$('#questionBankId2').combobox({
 			      data : result,
 			      valueField:'questionBankId',
 			      textField:'questionBankName',

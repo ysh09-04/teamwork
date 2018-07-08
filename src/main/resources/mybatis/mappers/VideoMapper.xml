@@ -10,7 +10,8 @@
 	</select>
 	<!-- 根据自身的ID删除信息 -->
 	<delete id="delete" parameterType="int">
-		DELETE FROM video WHERE videoId=#{0}
+		DELETE FROM video WHERE
+		videoId=#{0}
 	</delete>
 	<!-- 添加 -->
 	<insert id="save" parameterType="Video">
@@ -52,25 +53,44 @@
 
 	<!-- 视频和视频类目表 -->
 	<resultMap type="VideoVideoCategoryDto" id="videoVideoCategoryDtoResultMap">
-	     <id column="videoId" property="videoId"/>
-	     <result column="videoType" property="videoType"/>
-	     <result column="videoName" property="videoName"/>
-	     <result column="videoUrl" property="videoUrl"/>
-	     <result column="videoSynopsis" property="videoSynopsis"/>
-	     <result column="enabled" property="enabled"/>
-	     <result column="sortId" property="sortId"/>
-	     <result column="playNumber" property="playNumber"/>
-	     <association property="videoCategory" javaType="VideoCategory">
-	         <id column="videoCategoryId" property="videoCategoryId"/>
-	         <result column="videoCategoryName" property="videoCategoryName"/>
-	         <result column="videoCategoryDescribe" property="videoCategoryDescribe"/>
-	     </association>
+		<id column="videoId" property="videoId" />
+		<result column="videoType" property="videoType" />
+		<result column="videoName" property="videoName" />
+		<result column="videoUrl" property="videoUrl" />
+		<result column="videoSynopsis" property="videoSynopsis" />
+		<result column="enabled" property="enabled" />
+		<result column="sortId" property="sortId" />
+		<result column="playNumber" property="playNumber" />
+		<association property="videoCategory" javaType="VideoCategory">
+			<id column="videoCategoryId" property="videoCategoryId" />
+			<result column="videoCategoryName" property="videoCategoryName" />
+			<result column="videoCategoryDescribe" property="videoCategoryDescribe" />
+		</association>
 	</resultMap>
 	<!-- 根据视频名模糊查询/查询全部 (分页) -->
-	<select id="findByVideoNameOrAllpage" parameterType="string" resultMap="videoVideoCategoryDtoResultMap">
-	    SELECT v.enabled,v.playNumber,v.sortId,v.videoName,v.videoId,v.videoSynopsis,v.videoType,v.videoUrl,
-        vc.videoCategoryId,vc.videoCategoryName
-        FROM video v,videocategory vc
-        WHERE v.videoCategoryId=vc.videoCategoryId AND v.videoName=#{0}
+	<!-- 根据视频名模糊查询/查询全部 (分页) -->
+	<select id="findByVideoNameOrAllpage" parameterType="Map"
+		resultMap="videoVideoCategoryDtoResultMap">
+		SELECT
+		v.enabled,v.playNumber,v.sortId,v.videoName,v.videoId,v.videoSynopsis,v.videoType,v.videoUrl,
+		vc.videoCategoryId,vc.videoCategoryName 
+		FROM video v,videocategory vc 
+		WHERE v.videoCategoryId=vc.videoCategoryId 
+		<if test="videoName!=null and videoName!=''">
+			AND videoName like #{videoName}
+		</if>
+		<if test="size !=null and start !=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<select id="findByVideoNameOrAllCount" parameterType="Map"
+		resultType="int">
+		SELECT COUNT(1)
+		FROM video
+		<where>
+			<if test="videoName!=null and videoName!=''">
+				AND videoName like #{videoName}
+			</if>
+		</where>
 	</select>
 </mapper>

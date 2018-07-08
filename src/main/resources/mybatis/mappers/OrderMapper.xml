@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.OrderDao">
+   
+      <!-- 查找所有和搜索-->
+     <resultMap type="OrderTUserDto" id="OrderTUserDtoResultMap">
+        <id column="orderId" property="orderId" />
+        <result column="orderType" property="orderType" />
+        <result column="paymentType" property="paymentType" />
+        <result column="paymentNumber" property="paymentNumber" />
+        <result column="paymentMoney" property="paymentMoney" />
+        <result column="state" property="state" />
+        <association property="tUser" javaType="TUser">
+        <id column="tUserId" property="tUserId" />
+         <result column="userName" property="userName" />
+        
+        
+        </association>
+     </resultMap>
+     <select id="findPage" parameterType="Map" resultMap="OrderTUserDtoResultMap">
+        SELECT t_order.orderId,t_order.orderType,t_order.paymentMoney,
+        t_order.paymentNumber,t_order.paymentType,t_order.state,
+        t_user.tUserId,t_user.userName
+        FROM t_user,t_order
+        WHERE t_user.tUserId = t_order.tUserId
+     
+            <if test="state!=null and state!='' ">
+                and t_order.state like #{state}
+            </if>
+          
+        
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+    <!-- 计数 -->
+    <select id="getTotal" parameterType="Map" resultType="Long">
+        select count(*) from t_order
+        <where>
+             <if test="state!=null and state!='' ">
+                and t_order.state like #{state}
+            </if>
+        </where>
+    </select>
+<!-- 修改 -->
+     <update id="update" parameterType="TOrder" >
+        update t_order
+        <set>
+            
+            <if test="orderType!=null and orderType!='' ">
+                `orderType`=#{orderType},
+            </if>
+            <if test="paymentType!=null and paymentType!='' ">
+                `paymentType`=#{paymentType},
+            </if>
+            <if test="paymentNumber!=null and paymentNumber!='' ">
+                `paymentNumber`=#{paymentNumber},
+            </if>
+            <if test="paymentMoney!=null and paymentMoney!='' ">
+                `paymentMoney`=#{paymentMoney},
+            </if>
+            <if test="state!=null and state!='' ">
+                `state`=#{state},
+            </if>
+            <if test="tUserId!=null and tUserId!='' ">
+                `tUserId`=#{tUserId},
+            </if>
+           
+        </set>
+                where `orderId`=#{orderId}
+    </update>
+</mapper>

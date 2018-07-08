@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.ArticleDao">
+	<resultMap type="ArticleCourseDto" id="ArticleCourseDtoResultMap">
+         <id column="articleId" property="articleId"/>
+         <result column="articleType" property="articleType"/>
+         <result column="articleTitle" property="articleTitle"/>
+         <result column="articleWriter" property="articleWriter"/>
+         <result column="articleContent" property="articleContent"/>
+         <result column="readNumber" property="readNumber"/>
+         <association property="course" javaType="Course">
+            <id column="courseId" property="courseId"/>
+            <result column="courseName" property="courseName"/>
+            <result column="courseDescribe" property="courseDescribe"/>
+            <result column="enabledCourse" property="enabledCourse"/>
+            <result column="enabledPaper" property="enabledPaper"/>
+            <result column="categoryId" property="categoryId"/>
+         </association>
+     </resultMap>
+     <!-- 查询 -->
+    <select id="findArticle" parameterType="Map" 
+    		resultMap="ArticleCourseDtoResultMap">
+       SELECT
+       a.articleId,a.articleType,a.articleTitle,a.articleWriter,
+       a.articleContent,a.readNumber,a.courseId,c.courseId,c.courseName
+	   FROM article a,course c where a.courseId=c.courseId
+      <where>
+            <if test="articleTitle!=null and articleTitle != ''">
+                and articleTitle like #{articleTitle}
+            </if>
+            
+        </where>
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+	<!-- 分页 -->
+    <select id="getTotalArticle" parameterType="Map" resultType="Long">
+        select count(*) from article
+        <where>
+            <if test="articleTitle!=null and articleTitle!='' ">
+                and articleTitle like #{articleTitle}
+            </if>
+        </where>
+    </select>
+    <!-- 根据类目的id查询要删除的课程ID -->
+     <select id="findByCourseId" parameterType="int" resultType="int">
+         SELECT articleId FROM article WHERE courseId=#{0}
+     </select>
+     <!-- 根据自身的ID删除信息 -->
+     <delete id="delete" parameterType="int">
+         DELETE FROM article WHERE articleId=#{0}
+     </delete>
+	<!-- 添加 -->
+    <insert id="addArticle" parameterType="Article">
+		INSERT INTO
+		article(articleType,articleTitle,articleWriter,articleContent,readNumber,courseId) 
+		values(#{articleType},#{articleTitle},#{articleWriter},#{articleContent},#{readNumber},#{courseId})
+	</insert>
+   
+	<!-- 修改 -->
+	<update id="updateArticle" parameterType="Article">
+		UPDATE article SET 
+		articleType=#{articleType},articleTitle=#{articleTitle} 
+		,articleWriter=#{articleWriter},articleContent=#{articleContent},
+		readNumber=#{readNumber} ,courseId=#{courseId} 
+		WHERE 
+		articleId=#{articleId}
+	</update>
+	<!-- 查询全部 -->
+     <select id="findAll" resultType="Article">
+     select articleId,articleType,articleTitle,articleWriter,
+     articleContent,readNumber,courseId
+     from article
+     </select>
+</mapper> 

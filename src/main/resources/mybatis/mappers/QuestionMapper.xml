@@ -84,4 +84,16 @@
 		WHERE 
 		questionId=#{questionId}
 	</update>
+	<!-- 查询全部 -->
+	<select id="findAll" resultType="Question">
+	    select questionId,questionType,questionContent,chooseContent,
+        answer,answerAnalysis,questionSource,examinationPointDescription,
+        titleAccuracy,questionSelectionToal,questionValue,questionBankId
+        from question
+	
+	</select>
+	<!-- 根据ID查询 -->
+	<select id="findById" parameterType="int" resultType="Question">
+	    SELECT questionContent FROM question WHERE questionId=#{0}
+	</select>
 </mapper>

@@ -7,8 +7,7 @@ $(function() {
 	$('#dg').datagrid({
 		url : 'UserRole/datagrid',
 		title : '用户角色管理',
-		// width : '100%',
-		fitColumns : true,
+		width : '100%',
 		loadMsg : '数据加载中,请稍后...',
 		rownumbers : true,
 		singleSelect : true,
@@ -16,48 +15,58 @@ $(function() {
 		columns : [ [ {
 			field : 'user_roleId',
 			title : '编号',
-			checkbox : true
+			width : 100,
+			align: 'center'
 		},{
 			field : 'userId',
 			title : '用户Id',
-			width : 60
+			width : 100,
+			align: 'center'
 		},
 		{
 			field : 'uuid',
 			title : 'UUID',
-			width : 60
+			width : 100,
+			align: 'center'
 		},
 		{
 			field : 'userName',
 			title : '用户名',
-			width : 60
+			width : 100,
+			align: 'center'
 		},
 		{
 			field: 'password',
 			title: '用户密码',
-			width : 60
+			width : 100,
+			align: 'center'
 		},{
 			field: 'state',
 			title: '状态',
-			width : 60,
+			width : 100,
+			align: 'center'
 		},{
 			field: 'roleId',
 			title: '角色ID',
-			width : 60,
+			width : 100,
+			align: 'center'
 		},{
 			field: 'SRole.roleName',
 			title: '角色名字',
-			width : 60,
+			width : 100,
+			align: 'center'
 		},
 		{
 			field: 'SRole.roleDescribe',
 			title: '角色描述',
-			width : 60,
+			width : 100,
+			align: 'center'
 		},
 		{
 			field: 'SRole.enabled',
 			title: '是否启用',
-			width : 60,
+			width : 100,
+			align: 'center'
 		}
 		
 		 ] ],

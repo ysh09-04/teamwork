@@ -42,4 +42,11 @@ public interface VideoDao {
 	 * @return
 	 */
 	public int save(Video video);
+	/**
+	 * 根据视频名模糊查询/查询全部 总数
+	 * @param map
+	 * @return
+	 */
+	public int findByVideoNameOrAllCount(Map<String, Object> map);
+	
 }

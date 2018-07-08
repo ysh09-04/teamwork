@@ -62,4 +62,20 @@ public class QuestionServiceImpl implements QuestionService {
 		return questionDao.getQuestionByName(questionType);
 	}
 
+	@Override
+	public List<Question> findAll() {
+		// TODO Auto-generated method stub
+		return questionDao.findAll();
+	}
+	/**
+	 * 查询根据ID查询
+	 * @param map
+	 * @return
+	 */
+	@Override
+	public Question findById(int questionId) {
+		// TODO Auto-generated method stub
+		return questionDao.findById(questionId);
+	}
+
 }

@@ -1,9 +1,12 @@
 package com.ssm.promotion.core.controller.sys;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ssm.promotion.core.common.Result;
 import com.ssm.promotion.core.common.ResultGenerator;
@@ -34,7 +39,7 @@ public class QuestionControll {
 	@Autowired
 	private QuestionService questionService;
 	private static final Logger log = Logger.getLogger(UserController.class);// 日志文件
-	
+
 	/**
 	 * 跳转到菜单
 	 * @return
@@ -43,7 +48,7 @@ public class QuestionControll {
 	public String toQuestion(){
 		return "question/questionManege";
 	}
-	
+
 	/**
 	 * 模糊查询和查询全部
 	 * @param page
@@ -80,33 +85,116 @@ public class QuestionControll {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	@ResponseBody
-	public Result save(@RequestBody Question question) throws Exception {
-		int resultTotal = 0;
-		resultTotal = questionService.addQuestion(question);
+	//添加题目类型
+	@RequestMapping(value = "add", method = RequestMethod.POST)
+	public String save(@RequestParam MultipartFile image,HttpServletRequest request) throws Exception {
+		MultipartHttpServletRequest multipartHttpServletRequest=(MultipartHttpServletRequest)request;
+		String img=null;
+		if(image.getSize()!=0){
+			//设置文件路径
+			String dir=request.getServletContext().getRealPath("/")+"img";
+			File path=new File(dir);
+			System.out.println(dir);
+			if(!path.exists()){
+				path.mkdirs();
+			}
+			//转存文件
+			String uuid = UUID.randomUUID().toString();	
+
+			image.transferTo(new File(path,uuid+image.getOriginalFilename()));
+			img="./img"+"/"+uuid+image.getOriginalFilename();
+		}
+		int  questionSelectionToal=Integer.parseInt(multipartHttpServletRequest.getParameter("questionSelectionToal"));
+		int  questionBankId=Integer.parseInt(multipartHttpServletRequest.getParameter("questionBankId"));
+		String before=multipartHttpServletRequest.getParameter("before");
+		String after=multipartHttpServletRequest.getParameter("after");
+		String questionContent=null;
+		if(image.getSize()!=0){
+			questionContent=before+"<img src="+img+" />"+after;
+		}else{
+			questionContent=before+after;
+
+		}
+		String questionType=multipartHttpServletRequest.getParameter("questionType");
+		String answer=multipartHttpServletRequest.getParameter("answer");
+		String answerAnalysis=multipartHttpServletRequest.getParameter("answerAnalysis");
+		String examinationPointDescription=multipartHttpServletRequest.getParameter("examinationPointDescription");
+		String questionSource=multipartHttpServletRequest.getParameter("questionSource");
+		String titleAccuracy=multipartHttpServletRequest.getParameter("titleAccuracy");	
+		String chooseContent=multipartHttpServletRequest.getParameter("chooseContent");	
+		Double questionValue=Double.parseDouble(multipartHttpServletRequest.getParameter("questionValue"));
+		Question question = new Question(questionType, questionContent, chooseContent, answer, answerAnalysis, questionSource, examinationPointDescription, titleAccuracy, questionSelectionToal, questionValue, questionBankId);
+		int resultTotal =questionService.addQuestion(question);
+
 		if (resultTotal > 0) {
-			return ResultGenerator.genSuccessResult();
+			return "question/questionManege";
 		} else {
-			return ResultGenerator.genFailResult("FAIL");
+			return "error";
 		}
 	}
 
 	/**
 	 * 修改
 	 * 
-	 * @param user
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "", method = RequestMethod.PUT)
-	@ResponseBody
-	public Result update(@RequestBody Question question) throws Exception {
-		int resultTotal = questionService.updateQuestion(question);
+	//添加题目类型
+	@RequestMapping(value = "update", method = RequestMethod.POST)
+	public String update(@RequestParam MultipartFile image,HttpServletRequest request) throws Exception {
+		MultipartHttpServletRequest multipartHttpServletRequest=(MultipartHttpServletRequest)request;
+		String img=null;
+		if(image.getSize()!=0){
+			//设置文件路径
+			String dir=request.getServletContext().getRealPath("/")+"img";
+			File path=new File(dir);
+			System.out.println(dir);
+			if(!path.exists()){
+				path.mkdirs();
+			}
+			//转存文件
+			String uuid = UUID.randomUUID().toString();	
+
+			image.transferTo(new File(path,uuid+image.getOriginalFilename()));
+			img="./img"+"/"+uuid+image.getOriginalFilename();
+		}
+		int  questionSelectionToal=Integer.parseInt(multipartHttpServletRequest.getParameter("questionSelectionToal"));
+		int  questionBankId=Integer.parseInt(multipartHttpServletRequest.getParameter("questionBankId"));
+		String before=multipartHttpServletRequest.getParameter("before");
+		String after=multipartHttpServletRequest.getParameter("after");
+
+		String questionId=multipartHttpServletRequest.getParameter("questionId");
+		String questionType=multipartHttpServletRequest.getParameter("questionType");
+		String answer=multipartHttpServletRequest.getParameter("answer");
+		String answerAnalysis=multipartHttpServletRequest.getParameter("answerAnalysis");
+		String examinationPointDescription=multipartHttpServletRequest.getParameter("examinationPointDescription");
+		String questionSource=multipartHttpServletRequest.getParameter("questionSource");
+		String titleAccuracy=multipartHttpServletRequest.getParameter("titleAccuracy");	
+		String chooseContent=multipartHttpServletRequest.getParameter("chooseContent");	
+		Double questionValue=Double.parseDouble(multipartHttpServletRequest.getParameter("questionValue"));
+		String questionContent=null;
+		Question question2= questionService.findById(Integer.parseInt(questionId));
+		if(img==null){
+			String[] str2=question2.getQuestionContent().split("<");
+			if(str2.length==2){
+				str2[1]="<"+str2[1];
+				String[] str3=str2[1].split(">");
+				String questionImg=str3[0]+">";
+				questionContent=before+questionImg+after;
+			}else{
+				questionContent=before+after;
+			}
+		}else{
+			questionContent=before+"<img src="+img+" />"+after;
+		}
+		Question question = new Question(questionType, questionContent, chooseContent, answer, answerAnalysis, questionSource, examinationPointDescription, titleAccuracy, questionSelectionToal, questionValue, questionBankId);
+		question.setQuestionId(Integer.parseInt(questionId));
+		int resultTotal =questionService.updateQuestion(question);
+
 		if (resultTotal > 0) {
-			return ResultGenerator.genSuccessResult();
+			return "question/questionManege";
 		} else {
-			return ResultGenerator.genFailResult("FAIL");
+			return "error";
 		}
 	}
 
@@ -131,7 +219,20 @@ public class QuestionControll {
 		log.info("request: article/delete , ids: " + ids);
 		return ResultGenerator.genSuccessResult();
 	}
+	/**
+	 * 查询全部
+	 * 
+	 * @param 
+	 * @return
+	 * @throws 
+	 */
+	@RequestMapping("findAll")
+	@ResponseBody
+	public List<Question> findAll(){
+		List<Question> listQuestions= questionService.findAll();
+		return listQuestions;
+	}
 }
 
-	
+
 

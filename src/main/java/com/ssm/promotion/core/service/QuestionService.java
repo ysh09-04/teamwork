@@ -54,6 +54,19 @@ public interface QuestionService {
      * @return
      */
     public int updateQuestion(Question question);
+    /**
+   	 * 查询全部
+   	 * @param map
+   	 * @return
+   	 */
+   	public List<Question> findAll();
+   	/**
+	 * 查询根据ID查询
+	 * @param map
+	 * @return
+	 */
+	public Question findById(int questionId);
+
 }
 
 

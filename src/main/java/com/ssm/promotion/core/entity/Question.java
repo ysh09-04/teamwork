@@ -107,6 +107,23 @@ public class Question {
 		this.questionValue = questionValue;
 		this.questionBankId = questionBankId;
 	}
+	
+	public Question(String questionType, String questionContent, String chooseContent, String answer,
+			String answerAnalysis, String questionSource, String examinationPointDescription, String titleAccuracy,
+			int questionSelectionToal, double questionValue, int questionBankId) {
+		super();
+		this.questionType = questionType;
+		this.questionContent = questionContent;
+		this.chooseContent = chooseContent;
+		this.answer = answer;
+		this.answerAnalysis = answerAnalysis;
+		this.questionSource = questionSource;
+		this.examinationPointDescription = examinationPointDescription;
+		this.titleAccuracy = titleAccuracy;
+		this.questionSelectionToal = questionSelectionToal;
+		this.questionValue = questionValue;
+		this.questionBankId = questionBankId;
+	}
 	public Question() {
 		super();
 	}

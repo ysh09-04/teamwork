@@ -82,6 +82,18 @@ public class Video {
 		this.playNumber = playNumber;
 		this.videoCategoryId = videoCategoryId;
 	}
+	public Video(String videoType, String videoName, String videoUrl, String videoSynopsis, String enabled, int sortId,
+			int playNumber, int videoCategoryId) {
+		super();
+		this.videoType = videoType;
+		this.videoName = videoName;
+		this.videoUrl = videoUrl;
+		this.videoSynopsis = videoSynopsis;
+		this.enabled = enabled;
+		this.sortId = sortId;
+		this.playNumber = playNumber;
+		this.videoCategoryId = videoCategoryId;
+	}
 	public Video() {
 		super();
 	}

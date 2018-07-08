@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.promotion.core.dao.UserCourseDao">
+<!-- 用户关联课程 -->
+     <resultMap type="TuserCourseAndTuserAndCourseDto" id="UserCourseDtoResultMap">
+         <id column="userCourseId" property="userCourseId"/>
+         <result column="acquisitionMode" property="acquisitionMode" />
+         <result column="isUserCourse" property="isUserCourse" />
+         <result column="courseExpiryTime" property="courseExpiryTime" />
+         <result column="lastSystemOperatorId" property="lastSystemOperatorId" />                 
+         <result column="obtainingVoucher" property="obtainingVoucher" />
+         <result column="isUserPaper" property="isUserPaper" />
+         <result column="isUserQuestionBank" property="isUserQuestionBank" />
+         <result column="courseState" property="courseState" />                      
+         <association property="tUser" javaType="TUser">
+            <id column="tUserId" property="tUserId"/>
+            <result column="uuid" property="uuid" />
+            <result column="userName" property="userName" />
+            <result column="password" property="password" />
+            <result column="state" property="state" />
+        </association>
+        <association property="course" javaType="Course">
+            <id column="courseId" property="courseId"/>
+            <result column="courseName" property="courseName" />
+        </association>
+     </resultMap>
+     <!-- 查询 -->
+     <select id="findAll" parameterType="Map" resultMap="UserCourseDtoResultMap">
+        SELECT 
+        u.userCourseId,u.acquisitionMode,u.isUserCourse,u.courseExpiryTime,
+        u.lastSystemOperatorId,u.obtainingVoucher,u.isUserPaper,u.isUserQuestionBank,
+        u.courseState,u.tUserId,u.courseId,t.tUserId,t.uuid,t.userName,t.password,
+        t.state,c.courseId,c.courseName
+        FROM 
+        usercourse u,t_user t,course c
+        WHERE
+        u.tUserId=t.tUserId and u.courseId=c.courseId 
+        
+     
+            <if test="userName!=null and userName!='' ">
+                and t.userName like #{userName}
+            </if>
+          
+        
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+      <!-- 计数 -->
+    <select id="getTotalUserCourse" parameterType="Map" resultType="Long">
+                select count(*) 
+                from usercourse u ,course c, t_user t
+                where  u.tUserId=t.tUserId and u.courseId=c.courseId 
+             <if test="obtainingVoucher!=null and obtainingVoucher!='' ">
+                and u.obtainingVoucher like #{obtainingVoucher}
+            </if>
+        
+    </select>
+    <!-- 修改最后一个ID和状态 -->
+    <update id="updateStateAndastIdById" parameterType="UserCourse">
+         UPDATE usercourse SET  courseState=#{courseState},lastSystemOperatorId=#{lastSystemOperatorId}  
+         WHERE userCourseId=#{userCourseId}
+    </update>
+</mapper>
