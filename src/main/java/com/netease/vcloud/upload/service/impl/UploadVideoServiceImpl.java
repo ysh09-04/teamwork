@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import com.netease.vcloud.VcloudException;
@@ -41,7 +44,7 @@ public class UploadVideoServiceImpl implements UploadVideoService {
 	* @throws IOException
 	* @see com.netease.vcloud.upload.util.service.impl.UploadVideoService#uploadVideo(java.lang.String, java.util.Map)
 	*/
-	public QueryVideoIDorWatermarkIDParam uploadVideo(String filePath, Map<String, Object> initParamMap) throws VcloudException, IOException{
+	public QueryVideoIDorWatermarkIDParam uploadVideo(String filePath, Map<String, Object> initParamMap,HttpServletRequest request) throws VcloudException, IOException{
 
 
 		if(FileUtil.doesFileExist(filePath)){
@@ -80,7 +83,7 @@ public class UploadVideoServiceImpl implements UploadVideoService {
 				 /*分片上传视频*/
 				 while(remainderSize > 0){
 					 
-					 UploadVideoFragmentParam uploadVideoParam = uploadVideoService.uploadVideo(initUploadVideoParam, getUploadHostParam, offset, context, in, remainderSize);
+					 UploadVideoFragmentParam uploadVideoParam = uploadVideoService.uploadVideo(initUploadVideoParam, getUploadHostParam, offset, context, in, remainderSize,request);
 					 
 					 if(null == uploadVideoParam.getErrMsg() || "".equals(uploadVideoParam.getErrMsg().trim())){
 						 context = uploadVideoParam.getContext();

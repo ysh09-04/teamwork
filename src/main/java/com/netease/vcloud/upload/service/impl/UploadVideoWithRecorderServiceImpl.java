@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import com.netease.vcloud.VcloudException;
@@ -62,7 +64,7 @@ public class UploadVideoWithRecorderServiceImpl implements UploadVideoWithRecord
 	* @see com.netease.vcloud.upload.util.service.impl.UploadVideoWithRecorderService#uploadVideoWithRecorder(java.lang.String, java.util.Map, com.netease.vcloud.upload.recorder.Recorder)
 	*/
 	public QueryVideoIDorWatermarkIDParam uploadVideoWithRecorder(
-			String filePath, Map<String, Object> initParamMap, Recorder recorder) throws VcloudException, IOException {
+			String filePath, Map<String, Object> initParamMap, Recorder recorder,HttpServletRequest request) throws VcloudException, IOException {
 		
 		/*  第一次上传 */
 		if(!recorder.getUploadAgain()){
@@ -107,7 +109,7 @@ public class UploadVideoWithRecorderServiceImpl implements UploadVideoWithRecord
 					/*分片上传视频*/
 					while(remainderSize > 0){
 
-						UploadVideoFragmentParam uploadVideoParam = uploadVideoService.uploadVideo(initUploadVideoParam, getUploadHostParam, offset, context, in, remainderSize);
+						UploadVideoFragmentParam uploadVideoParam = uploadVideoService.uploadVideo(initUploadVideoParam, getUploadHostParam, offset, context, in, remainderSize,request);
 
 						if(null == uploadVideoParam.getErrMsg() || "".equals(uploadVideoParam.getErrMsg().trim())){
 							context = uploadVideoParam.getContext();

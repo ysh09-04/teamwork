@@ -3,6 +3,8 @@ package com.ssm.promotion.core.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,8 +70,9 @@ public class VideoServiceImpl implements VideoService {
 	 * @return
 	 */
 	@Override
-	public int update(Video video,String videoName) {
-		String videoUrl= UploadVideoDemo.upload(video.getVideoUrl(),videoName);
+	public int update(Video video,String videoName,HttpServletRequest request) {
+	    UploadVideoDemo.upload(video.getVideoUrl(),videoName,request);
+		String videoUrl= (String)request.getAttribute("videoUrl");
 		video.setVideoUrl(videoUrl);
 		return videoDao.update(video);
 	}
@@ -79,8 +82,9 @@ public class VideoServiceImpl implements VideoService {
 	 * @return
 	 */
 	@Override
-	public int save(Video video,String videoName) {
-		String videoUrl= UploadVideoDemo.upload(video.getVideoUrl(),videoName);
+	public int save(Video video,String videoName,HttpServletRequest request) {
+		UploadVideoDemo.upload(video.getVideoUrl(),videoName,request);
+		String videoUrl= (String)request.getAttribute("videoUrl");
 		video.setVideoUrl(videoUrl);
 		return videoDao.save(video);
 	}

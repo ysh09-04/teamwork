@@ -1,13 +1,14 @@
 package com.ssm.promotion.core.util;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.netease.vcloud.auth.BasicCredentials;
 import com.netease.vcloud.auth.Credentials;
 import com.netease.vcloud.client.VcloudClient;
 import com.netease.vcloud.upload.param.QueryVideoIDorWatermarkIDParam;
 import com.netease.vcloud.util.FileUtil;
-import org.apache.log4j.Logger;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -20,7 +21,7 @@ import java.util.Map;
 public class UploadVideoDemo {
 
 
-    public static String upload(String path,String videoName) {
+    public static void upload(String path,String videoName,HttpServletRequest request) {
         String appKey = "6797e6a05f06cc1491118c290b91ab4d";
         String appSecret = "268a68674ead";
 
@@ -31,7 +32,7 @@ public class UploadVideoDemo {
             String filePath = path;
             Map<String, Object> initParamMap = new HashMap<String, Object>();
             initParamMap.put("originFileName", FileUtil.getFileName(filePath));
-            QueryVideoIDorWatermarkIDParam queryVideoIDParam = vclient.uploadVideo(filePath, initParamMap);
+            QueryVideoIDorWatermarkIDParam queryVideoIDParam = vclient.uploadVideo(filePath, initParamMap,request);
             if (null != queryVideoIDParam) {
                 System.out.println("[UploadDemo] upload video successfully and the vid is " + queryVideoIDParam.getRet().getList().get(0).getVid());
                 System.out.println("[UploadDemo] upload video successfully and the imgid is " + queryVideoIDParam.getRet().getList().get(0).getImgId());
@@ -39,7 +40,5 @@ public class UploadVideoDemo {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String uploadpath=InitUploadVideoDemo.upload(videoName);
-        return uploadpath;
     }
 }

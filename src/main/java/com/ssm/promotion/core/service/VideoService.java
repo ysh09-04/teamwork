@@ -3,6 +3,8 @@ package com.ssm.promotion.core.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.ssm.promotion.core.dto.VideoVideoCategoryDto;
 import com.ssm.promotion.core.entity.Video;
 
@@ -41,11 +43,11 @@ public interface VideoService {
 	 * @param video
 	 * @return
 	 */
-	public int update(Video video,String videoName);
+	public int update(Video video,String videoName,HttpServletRequest request);
 	/**
 	 * 添加
 	 * @param video
 	 * @return
 	 */
-	public int save(Video video,String videoName);
+	public int save(Video video,String videoName,HttpServletRequest request);
 }

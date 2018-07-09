@@ -3,6 +3,8 @@ package com.netease.vcloud.upload.service.impl;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import com.netease.vcloud.VcloudException;
@@ -83,13 +85,15 @@ public class UploadVideoFragmentServiceImpl implements UploadVideoFragmentServic
 	* @throws IOException
 	* @see com.netease.vcloud.upload.util.service.impl.UploadVideoFragmentService#uploadVideo(com.netease.vcloud.upload.util.param.InitUploadVideoParam, com.netease.vcloud.upload.util.param.GetUploadHostParam, java.lang.Long, java.lang.String, java.io.InputStream, java.lang.Long)
 	*/
-	public UploadVideoFragmentParam uploadVideo(InitUploadVideoParam initUploadVideoParam, GetUploadHostParam getUploadHostParam, Long offset, String context, InputStream in, Long remainderSize) throws VcloudException, IOException{
+	public UploadVideoFragmentParam uploadVideo(InitUploadVideoParam initUploadVideoParam, GetUploadHostParam getUploadHostParam, Long offset, String context, InputStream in, Long remainderSize,HttpServletRequest request) throws VcloudException, IOException{
 		String bucket = initUploadVideoParam.getRet().getBucket();
 		String uploadHost = getUploadHostParam.getUpload().get(0);
 		String object = initUploadVideoParam.getRet().getObject();		
 		String xNosToken = initUploadVideoParam.getRet().getxNosToken();
-		System.out.println(uploadHost+"/"+bucket+"/"+object);
-		
+		String qianzhui="http://jdvoddtuyt8a8.vod.126.net/";
+		String videoUrl=qianzhui+"/"+bucket+"/"+object;
+		System.out.println(videoUrl);
+		request.setAttribute("videoUrl", videoUrl);
 		return uploadVideo(bucket, uploadHost, object,
 				offset, context, in, remainderSize, xNosToken);
 	}

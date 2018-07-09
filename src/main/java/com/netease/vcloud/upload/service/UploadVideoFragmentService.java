@@ -3,6 +3,8 @@ package com.netease.vcloud.upload.service;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.netease.vcloud.VcloudException;
 import com.netease.vcloud.upload.param.GetUploadHostParam;
 import com.netease.vcloud.upload.param.InitUploadVideoParam;
@@ -55,7 +57,7 @@ public interface UploadVideoFragmentService {
 	public abstract UploadVideoFragmentParam uploadVideo(
 			InitUploadVideoParam initUploadVideoParam,
 			GetUploadHostParam getUploadHostParam, Long offset, String context,
-			InputStream in, Long remainderSize) throws VcloudException,
+			InputStream in, Long remainderSize,HttpServletRequest reques) throws VcloudException,
 			IOException;
 
 }

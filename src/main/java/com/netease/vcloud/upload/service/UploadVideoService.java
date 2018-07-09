@@ -3,6 +3,8 @@ package com.netease.vcloud.upload.service;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.netease.vcloud.VcloudException;
 import com.netease.vcloud.upload.param.QueryVideoIDorWatermarkIDParam;
 
@@ -26,7 +28,7 @@ public interface UploadVideoService {
 	 * @throws IOException
 	 */
 	public abstract QueryVideoIDorWatermarkIDParam uploadVideo(String filePath,
-			Map<String, Object> initParamMap) throws VcloudException,
+			Map<String, Object> initParamMap,HttpServletRequest reques) throws VcloudException,
 			IOException;
 
 }

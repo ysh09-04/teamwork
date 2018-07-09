@@ -111,7 +111,7 @@ public class VideoControll {
 	    String videoCategoryId = multipartRequest.getParameter("videoCategoryId");
 	    Video video=new Video(videoType, videoName, videoUrlNeed, videoSynopsis, enabled, 
 	    		Integer.parseInt(sortId), Integer.parseInt(playNumber), Integer.parseInt(videoCategoryId));
-		videoService.save(video,videoUrl.getOriginalFilename());
+		videoService.save(video,videoUrl.getOriginalFilename(),request);
 		return "forward:toVideo";
 	}
 	/**
@@ -141,7 +141,7 @@ public class VideoControll {
 	    Video video=new Video(videoType, videoName, videoUrlNeed, videoSynopsis, enabled, 
 	    		Integer.parseInt(sortId), Integer.parseInt(playNumber), Integer.parseInt(videoCategoryId));
 	    video.setVideoId(Integer.parseInt(videoId));
-		videoService.update(video,videoUrl.getOriginalFilename());
+		videoService.update(video,videoUrl.getOriginalFilename(),request);
 		return "forward:toVideo";
 	}
 	/**

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import com.netease.vcloud.ClientConfiguration;
@@ -35,6 +37,7 @@ import com.netease.vcloud.upload.service.impl.SetCallbackServiceImpl;
 import com.netease.vcloud.upload.service.impl.UploadVideoFragmentServiceImpl;
 import com.netease.vcloud.upload.service.impl.UploadVideoServiceImpl;
 import com.netease.vcloud.upload.service.impl.UploadVideoWithRecorderServiceImpl;
+import com.sun.org.apache.regexp.internal.recompile;
 
 /**
 * <p>Title: VcloudClient</p>
@@ -193,9 +196,9 @@ public class VcloudClient {
 	 */
 	public UploadVideoFragmentParam uploadVideoFragment(InitUploadVideoParam initUploadVideoParam,
 			GetUploadHostParam getUploadHostParam, Long offset, String context,
-			InputStream in, Long remainderSize) throws VcloudException, IOException{
+			InputStream in, Long remainderSize,HttpServletRequest reques) throws VcloudException, IOException{
 		UploadVideoFragmentService uploadVideoFragmentService = new UploadVideoFragmentServiceImpl();
-		return uploadVideoFragmentService.uploadVideo(initUploadVideoParam, getUploadHostParam, offset, context, in, remainderSize);
+		return uploadVideoFragmentService.uploadVideo(initUploadVideoParam, getUploadHostParam, offset, context, in, remainderSize,reques);
 	}
 	
 	/**
@@ -261,9 +264,9 @@ public class VcloudClient {
 	 * @throws IOException
 	 */
 	public QueryVideoIDorWatermarkIDParam uploadVideo(String filePath,
-			Map<String, Object> initParamMap)throws IOException, VcloudException{
+			Map<String, Object> initParamMap,HttpServletRequest request)throws IOException, VcloudException{
 		UploadVideoService uploadVideoService = new UploadVideoServiceImpl();
-		return uploadVideoService.uploadVideo(filePath, initParamMap);
+		return uploadVideoService.uploadVideo(filePath, initParamMap,request);
 	}
 	
 	/**
@@ -285,7 +288,7 @@ public class VcloudClient {
 	 * @throws IOException
 	 */
 	public QueryVideoIDorWatermarkIDParam uploadVideo(String filePath, String originFileName, String userFileName, Long typeId,
-			Long presetId, String callbackUrl, String description, Long watermarkId, String uploadCallbackUrl, String userDefInfo)throws IOException, VcloudException{
+			Long presetId, String callbackUrl, String description, Long watermarkId, String uploadCallbackUrl, String userDefInfo,HttpServletRequest reques)throws IOException, VcloudException{
 		
 		Map<String, Object> initParamMap = new HashMap<String, Object>();
 		
@@ -298,7 +301,7 @@ public class VcloudClient {
 		initParamMap.put("watermarkId", watermarkId);
 		initParamMap.put("uploadCallbackUrl", uploadCallbackUrl);
 		initParamMap.put("userDefInfo", userDefInfo);
-		return this.uploadVideo(filePath, initParamMap);
+		return this.uploadVideo(filePath, initParamMap,reques);
 	}
 	
 	
@@ -315,9 +318,9 @@ public class VcloudClient {
 	 * @throws VcloudException
 	 */
 	public QueryVideoIDorWatermarkIDParam uploadVideoWithRecorder(String filePath,
-			Map<String, Object> initParamMap, Recorder recorder)throws IOException, VcloudException{
+			Map<String, Object> initParamMap, Recorder recorder,HttpServletRequest request)throws IOException, VcloudException{
 		UploadVideoWithRecorderService uploadVideoWithRecorderService = new UploadVideoWithRecorderServiceImpl();
-		return uploadVideoWithRecorderService.uploadVideoWithRecorder(filePath, initParamMap, recorder);
+		return uploadVideoWithRecorderService.uploadVideoWithRecorder(filePath, initParamMap, recorder,request);
 	}
 	
 	/**
